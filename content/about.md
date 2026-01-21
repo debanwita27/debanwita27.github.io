@@ -5,7 +5,7 @@ date: "2023-03-24"
 author: Debanwita Mahato
 ---
 
-Updated: 2026-01-20
+Last updated: Jan, 2026
 
 <h2>Hi,</h2>
 
