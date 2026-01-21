@@ -1,9 +1,11 @@
 ---
 title: About
 description: "Me :D"
-date: "2026-01-20"
+date: "2023-03-24"
 author: Debanwita Mahato
 ---
+
+Updated: 2026-01-20
 
 <h2>Hi,</h2>
 
@@ -15,7 +17,7 @@ I'm Debanwita, a Computer Science and Engineering graduate currently working as 
 <p>
 At Headout, I work at the intersection of design and engineering — building and owning the design system, shipping UI revamps across web and app, and enabling fast-paced product experiments using Framer. 
 I’ve led festive theming and animation setups across multiple surfaces, built SEO-focused microbrand templates, and helped standardize components and iconography across codebases. 
-Previously, I worked on accessibility, internal tooling, CMS migrations, and ported the product’s animation stack from Lottie to Rive.
+Previously, I worked on accessibility, internal tooling, CMS migrations, and animation setups.
 </p>
 
 <p>
@@ -45,6 +47,6 @@ I used to be an avid quizzer and debater back in school (something I've been mea
 <li><strong><a href="https://github.com/debanwita27/LinkedIn-Connect">LinkedIn connect</a> : </strong> A chrome extension that accepts all connection requests on LinkedIn at once</li>
 <li><strong><a href="https://github.com/debanwita27/Design_Stuff">Design Stuff </a>: </strong>Collection of small UI components and design experiments</li>
 <li><strong><a href="https://github.com/debanwita27/ML-Stuff">ML Stuff</a> : </strong>An agglomeration of most of my ML projects</li>
-<li><strong><a href="https://github.com/debanwita27/Canvas_Stuff">Canvas Stuff</a>(clearly not the best at naming plurals) : </strong>Collection of generative art and small games</li>
+<li><strong><a href="https://github.com/debanwita27/Canvas_Stuff">Canvas Stuff</a></strong> (clearly not the best at naming plurals) : Collection of generative art and small games</li>
 </ul>
 ...and more on my github
