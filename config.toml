@@ -1,5 +1,5 @@
 title = "Debanwita Mahato"
-baseURL = 'https://debanwita27.github.io'
+baseURL = 'https://debanwita.me/'
 languageCode = 'en-us'
 theme = "hugo-blog-awesome"
 
@@ -52,7 +52,7 @@ enableEmoji = true
   # Note: image is not rendered if the resource(avatar image) is not found. No error is displayed.
   intro = "Debanwita Mahato"
   name = "Debanwita Mahato"
-  description = "Trying to get better at building things on the web and in product. I dabble in generative coding for the kicks."
+  description = "CS grad trying to get a foothold in UI/UX Design and Web Development. I dabble in generative coding for the kicks."
 [[params.socialIcons]]
 name = "github"
 url = "https://github.com/debanwita27"
