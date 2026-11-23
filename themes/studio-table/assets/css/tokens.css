@@ -29,7 +29,7 @@
   --fs-dek:clamp(1.15rem,2vw,1.35rem);   /* italic Fraunces standfirst under a title */
   --fs-h3:22px;      --lh-h3:1.25;
   --fs-h2:clamp(1.6rem,3vw,1.875rem); --lh-h2:1.2;   /* 30px from ~640px up */
-  --fs-h1-post:clamp(2.5rem,6vw,4.1rem);
+  --fs-h1-post:clamp(2.1rem,4.4vw,3.15rem);
   --fs-h1-index:clamp(3rem,8vw,5.6rem);  /* posts/logs index and 404 */
   /* Caveat: three sizes, loaded weights 500/600 only */
   --fs-hand-s:19px; --fs-hand:22px; --fs-hand-l:33px;

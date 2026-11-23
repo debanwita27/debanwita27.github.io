@@ -128,7 +128,7 @@ html.theme-fade, html.theme-fade :not(.theme, .theme *), html.theme-fade :not(.t
 .tape--at-top-right{left:auto;right:44px}
 .tape--at-corner-left{top:-6px;left:-18px;--tr:-38deg}
 .tape--at-corner-right{top:-6px;left:auto;right:-18px;--tr:38deg}
-.display{font-family:var(--f-display);font-weight:var(--fw-display);font-variation-settings:"opsz" 144,"SOFT" 0,"WONK" 0;letter-spacing:-.02em;line-height:.98}
+.display{font-family:var(--f-display);font-weight:var(--fw-title);font-variation-settings:"opsz" 60,"SOFT" 0,"WONK" 0;letter-spacing:-.01em;line-height:1.02}
 .page-title{font-size:var(--fs-h1-index);color:var(--ink)}
 .page-title + .hand{display:block;font-size:var(--fs-hand-l);line-height:1.1;color:var(--madder);rotate:-2deg;margin-top:8px}
 .sample-tag{display:inline-block;font-family:var(--f-body);font-weight:500;font-size:var(--fs-label);letter-spacing:var(--tr-label);text-transform:uppercase;border:1.5px dashed currentColor;padding:2px 8px;rotate:-4deg;line-height:1.4}

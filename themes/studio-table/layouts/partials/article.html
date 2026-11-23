@@ -31,7 +31,8 @@
       {{- if .Params.sample }}<span class="sample-tag">sample</span>{{ end }}
       <p class="meta mono">{{ with .Date }}<time datetime="{{ .Format "2006-01-02" }}">{{ .Format "2 Jan 2006" }}</time> &middot; {{ end }}{{ .ReadingTime }} min read</p>
       <h1 class="display">{{ .Title }}</h1>
-      {{ with .Description }}<p class="dek">{{ . }}</p>{{ end }}
+      {{- /* skip the dek when it only repeats the title; .Description still feeds the meta tags */ -}}
+      {{ with .Description }}{{ if not (in (lower $.Title) (lower .)) }}<p class="dek">{{ . }}</p>{{ end }}{{ end }}
       {{ with .Params.kicker }}<p class="hand kicker">{{ . }}</p>{{ end }}
     </header>
     <div class="wobble" aria-hidden="true"></div>
