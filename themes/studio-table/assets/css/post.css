@@ -1,0 +1,148 @@
+/* ============================ single post ============================
+   The sheet carries the primary tag's ink from data/tags.yaml as --ink-l / --ink-d. */
+.post-main{padding-block:clamp(28px,5vw,60px) clamp(80px,10vw,130px)}
+.sheet{--post-ink:var(--ink-l);position:relative;max-width:740px;margin:0 auto;padding:clamp(28px,5vw,60px) var(--sp);--sp:clamp(20px,5vw,60px);background-color:var(--paper)}
+[data-theme="cranberry-cold-brew"] .sheet{--post-ink:var(--ink-d)}
+.sheet::after{content:"";display:table;clear:both}
+.post-head .sample-tag{margin-left:12px;color:var(--post-ink)}
+.post-head .meta{color:var(--p-soft);margin:18px 0 10px}
+.post-head h1{font-size:var(--fs-h1-post);color:var(--p-ink);margin-bottom:14px;text-wrap:balance}
+.post-head .dek{font-family:var(--f-display);font-size:var(--fs-dek);line-height:1.35;font-style:italic;font-weight:var(--fw-display);color:var(--p-soft);margin-bottom:8px}
+.post-head .kicker{font-size:var(--fs-hand);color:var(--post-ink);line-height:1.2}
+.wobble{height:14px;margin:28px 0 30px;background:repeating-linear-gradient(90deg, var(--post-ink) 0 14px, transparent 14px 22px);filter:url(#paint);opacity:.55}
+
+/* ---------- running text ---------- */
+.post-body p{font-size:var(--fs-body);line-height:var(--lh-body);margin-bottom:1.1em;text-wrap:pretty}
+.post-body > p:first-of-type::first-letter{font-family:var(--f-display);font-weight:var(--fw-display);font-variation-settings:"opsz" 144,"SOFT" 0,"WONK" 0;float:left;font-size:4.3em;line-height:.8;padding:.06em .1em 0 0;color:var(--post-ink)}
+.post-body h2,.post-body h3{font-family:var(--f-display);color:var(--p-head);margin:1.6em 0 .5em}
+.post-body h2{font-weight:var(--fw-display);font-size:var(--fs-h2);line-height:var(--lh-h2);letter-spacing:-.01em}
+.post-body h3{font-weight:var(--fw-title);font-size:var(--fs-h3);line-height:var(--lh-h3)}
+.post-body ul,.post-body ol{margin:0 0 1.1em;padding-left:1.3em;font-size:var(--fs-body);line-height:var(--lh-body)}
+.post-body ul{list-style:disc}.post-body ol{list-style:decimal}
+.post-body blockquote{margin:1.6em 0;padding-left:20px;border-left:3px solid var(--post-ink);font-family:var(--f-display);font-style:italic;font-weight:var(--fw-display);font-size:var(--fs-h3);line-height:1.4}
+.post-body pre{margin:0 0 1.2em}
+.post-body hr{border:0;border-top:1px dashed var(--foot-dash);margin:2em 0}
+.back{display:inline-flex;align-items:center;gap:8px;margin-top:28px;font-family:var(--f-hand);font-weight:500;font-size:var(--fs-hand);color:var(--post-ink);text-decoration:none}
+.back svg{width:40px;height:18px;scale:-1 1;transition:translate .3s var(--ease)}
+.back:hover svg{translate:-5px 0}
+
+/* ============================ tangents ============================
+   Markup order is highlight -> marker -> (end of paragraph) -> <aside>. Without JS, or below
+   the wide breakpoint, the aside reads inline under its paragraph. post.js adds .tn-on to the
+   sheet on wide screens, which lifts asides into the margins and draws the connectors. */
+[data-tone="rose"]{--hl:var(--tn-rose-hl);--hot:var(--tn-rose-hot);--tink:var(--tn-rose-ink);--tnote:var(--tn-rose-note);--ttext:var(--tn-rose-text)}
+[data-tone="sand"]{--hl:var(--tn-sand-hl);--hot:var(--tn-sand-hot);--tink:var(--tn-sand-ink);--tnote:var(--tn-sand-note);--ttext:var(--tn-sand-text)}
+[data-tone="leaf"]{--hl:var(--tn-leaf-hl);--hot:var(--tn-leaf-hot);--tink:var(--tn-leaf-ink);--tnote:var(--tn-leaf-note);--ttext:var(--tn-leaf-text)}
+[data-tone="blue"]{--hl:var(--tn-blue-hl);--hot:var(--tn-blue-hot);--tink:var(--tn-blue-ink);--tnote:var(--tn-blue-note);--ttext:var(--tn-blue-text)}
+.tn-hl{color:inherit;background-color:transparent;border-radius:.5em .2em .55em .25em;padding:.04em .18em;-webkit-box-decoration-break:clone;box-decoration-break:clone;
+  background-image:linear-gradient(174deg, transparent 4%, var(--hl) 9%, var(--hl) 88%, transparent 95%);transition:--hl .25s}
+.tn-hl.hot{--hl:var(--hot)}
+.tn-ref{display:inline-block;vertical-align:super;font-family:var(--f-body);font-weight:600;font-size:var(--fs-label);line-height:1;color:var(--tink);text-decoration:none;padding:0 .2em;margin-left:.05em;border-radius:3px}
+.tn-ref.hot{background:var(--hl)}
+.tn-ref:focus-visible{outline-offset:2px}
+
+/* Four note styles; the face is part of each style. Sizes all come from the scale tokens. */
+.tn{position:relative;max-width:400px;margin:.2em 0 1.6em 12px;padding:18px 16px 14px;color:var(--ttext);background-color:var(--tnote);rotate:var(--r,0deg);
+  transition:scale .3s var(--ease), box-shadow .3s, translate .3s var(--ease)}
+.tn .tape{width:60px;left:calc(50% - 30px);top:-11px;height:20px;opacity:1}
+.tn-label{display:block;font-family:var(--f-body);font-weight:500;font-style:normal;font-size:var(--fs-label);line-height:1.4;letter-spacing:var(--tr-label);text-transform:uppercase;margin-bottom:6px;
+  color:color-mix(in srgb, var(--ttext) 80%, var(--tnote))}
+.tn-label .tn-n{margin-right:.3em}
+.tn-text{display:block;margin:0}
+.tn-text p{margin:0}
+.tn:focus{outline:none}
+.tn:focus-visible{outline:2px dashed var(--madder);outline-offset:4px}
+.tn.hot{scale:1.03;box-shadow:0 2px 0 rgba(var(--shadow),.1), 0 22px 26px -14px rgba(var(--shadow),.55)}
+/* sticky (rose): pink sticky, pink washi strip, handwriting */
+.tn-sticky{--r:2.4deg;background-image:var(--grain-p),linear-gradient(transparent 82%, rgba(var(--shadow),.05));
+  font-family:var(--f-hand);font-weight:500;font-size:var(--fs-hand);line-height:1.2;box-shadow:0 12px 18px -12px rgba(var(--shadow),.55)}
+/* the note tapes keep their own tone tokens inside the shared patterns */
+.tn-sticky .tape{--t1a:var(--tn-rose-tape-a);--t1b:var(--tn-rose-tape-b)}
+/* paper (sand): a plain slip with a hairline edge and a soft shadow, set in the display serif */
+.tn-paper{--r:-1.8deg;background-image:var(--grain-p);
+  font-family:var(--f-display);font-weight:var(--fw-display);font-size:var(--fs-body);line-height:1.5;
+  box-shadow:inset 0 0 0 1px var(--tn-sand-edge), 0 1px 1px rgba(var(--shadow),.08), 0 14px 20px -14px rgba(var(--shadow),.5)}
+/* taped (leaf): matcha sticky held by a diagonal-stripe washi strip, handwriting */
+.tn-taped{--r:-1.4deg;background-image:var(--grain-p),linear-gradient(transparent 82%, rgba(var(--shadow),.05));
+  font-family:var(--f-hand);font-weight:500;font-size:var(--fs-hand);line-height:1.2;box-shadow:0 12px 18px -12px rgba(var(--shadow),.55)}
+.tn-taped .tape{left:30%;--t2a:var(--tn-leaf-tape-a);--t2b:var(--tn-leaf-tape-b)}
+/* card (blue): index card, header rule under the label, ruled lines under every text line.
+   post.js measures the text baseline into --ry; the fallback suits SF Mono and Menlo. */
+.tn-card{--r:1.5deg;--ry:52px;padding-top:12px;
+  background-image:var(--grain-p),linear-gradient(var(--tn-card-head),var(--tn-card-head)),repeating-linear-gradient(transparent 0 21px, var(--tn-card-rule) 21px 22px);
+  background-size:auto,100% 1.5px,100% calc(100% - var(--ry) + 20px);background-position:0 0,0 38px,0 calc(var(--ry) - 20px);background-repeat:repeat,no-repeat,no-repeat;
+  font-family:var(--f-mono);font-size:var(--fs-mono);line-height:22px;box-shadow:inset 0 0 0 1px var(--paper-edge), 0 12px 18px -12px rgba(var(--shadow),.5)}
+.tn-card .tn-label{line-height:22px;margin-bottom:8px}
+
+/* wide: notes in the margins. Below 1400px the margin can't hold a ~26ch note, so they fold. */
+@media (min-width: 1400px){
+  .tn-on .tn{position:absolute;margin:0;z-index:4;width:min(300px, calc((100vw - 740px) / 2 - 60px))}
+  .tn-on .tn[data-side="right"]{left:calc(100% + 36px)}
+  .tn-on .tn[data-side="left"]{right:calc(100% + 36px)}
+}
+/* narrow with JS: notes fold under their paragraph and open from the marker */
+.tn-fold .tn{display:none;--r:0deg}
+.tn-fold .tn.open{display:block}
+.tn-wires{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:3}
+.tn-fold .tn-wires{display:none}
+.tn-wires path{fill:none;stroke:var(--tink);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;opacity:.85;transition:stroke-width .2s, opacity .2s}
+.tn-wires .dotted{stroke-dasharray:0 6.5;stroke-width:2.4}
+.tn-wires circle{fill:var(--tink);opacity:.9}
+.tn-wires .hot path{stroke-width:2.6;opacity:1}
+.tn-wires .hot .dotted{stroke-width:3}
+
+/* ============================ figures ============================ */
+.fig{margin:0;position:relative}
+.fig-frame{display:block;position:relative;background:var(--paper-2);background-image:var(--grain-p);padding:8px;rotate:var(--r,0deg);color:inherit;cursor:zoom-in;
+  box-shadow:inset 0 0 0 1px var(--paper-edge), 0 1px 1px rgba(var(--shadow),.12), 0 16px 22px -14px rgba(var(--shadow),.6);transition:rotate .45s var(--ease), translate .45s var(--ease)}
+.fig-frame:hover,.fig-frame:focus-visible{rotate:0deg;translate:0 -3px}
+.fig-frame img{display:block;width:100%;height:auto}
+.fig .tape{top:-11px;width:64px;left:calc(50% - 32px)}
+.fig figcaption{font-family:var(--f-hand);font-weight:500;font-size:var(--fs-hand-s);line-height:1.15;color:var(--p-ink);margin-top:10px;padding-left:4px}
+/* dark: images dimmed a step so they sit on the page instead of glowing */
+[data-theme="cranberry-cold-brew"] .fig-frame img{filter:brightness(.84) saturate(.93)}
+.fig-taped{clear:both;margin:2em auto 2.2em;--r:-.8deg}
+.fig-breakout{clear:both;margin:2em 0 2.2em;--r:-.7deg}
+.fig-inset-right{float:right;width:min(44%,250px);margin:.3em 0 1em 1.6em;--r:2.2deg}
+.fig-inset-left{float:left;width:min(44%,250px);margin:.3em 1.6em 1em 0;--r:-2.2deg}
+.fig-inset-right figcaption,.fig-inset-left figcaption{text-align:center}
+@media (min-width: 1000px){
+  .fig-breakout{margin-inline:calc(-1 * var(--sp) - 40px)}
+  .fig-breakout figcaption{padding-left:calc(var(--sp) + 40px)}
+  .fig-inset-right{margin-right:calc(-1 * var(--sp) - 30px)}
+  .fig-inset-left{margin-left:calc(-1 * var(--sp) - 30px)}
+}
+@media (max-width: 999px){ .fig-breakout{margin-inline:calc(-1 * var(--sp) + 4px)} .fig-breakout figcaption{padding-left:calc(var(--sp) - 4px)} }
+@media (max-width: 560px){ .fig-inset-right,.fig-inset-left{float:none;width:72%;margin:0 auto 1.6em} }
+
+/* ============================ gallery ============================
+   Rows are laid out at build time: every figure's flex-grow is its aspect ratio, so a row's
+   images share one height; a row's max-width caps that height. */
+.gallery{--gap:22px;clear:both;display:flex;flex-direction:column;gap:calc(var(--gap) + 10px);margin:2.2em 0 2.4em}
+.g-row{display:flex;gap:var(--gap);align-items:flex-start;width:100%;margin-inline:auto;min-width:0}
+.g-col{display:flex;flex-direction:column;gap:calc(var(--gap) + 10px);flex-basis:0;min-width:0}
+.g-row > .fig,.g-col > .fig{flex-basis:0;min-width:0}
+.g-row > .fig.hero{align-self:stretch;display:flex;flex-direction:column}
+.fig.hero .fig-frame{flex:1;display:flex}
+.fig.hero .fig-frame img{height:100%;object-fit:cover}
+@media (max-width: 560px){
+  .gallery{--gap:12px}
+  .g-row{flex-wrap:wrap}
+  .g-row > .fig,.g-row > .g-col{min-width:calc(50% - var(--gap))}
+}
+
+/* ============================ lightbox ============================ */
+.lb{border:0;padding:24px 64px;max-width:none;max-height:none;width:100%;height:100%;background:transparent;display:grid;place-items:center;overflow:hidden}
+.lb:not([open]){display:none}
+.lb::backdrop{background:rgba(42,22,20,.62);-webkit-backdrop-filter:blur(8px) saturate(.9);backdrop-filter:blur(8px) saturate(.9)}
+.lb-fig{margin:0;animation:lift .5s var(--ease) both;max-width:100%}
+.lb-frame{background:var(--paper);background-image:var(--grain-p);padding:12px;box-shadow:0 40px 60px -20px rgba(0,0,0,.6)}
+.lb-frame img{display:block;max-width:min(1000px, calc(100vw - 150px));max-height:72vh;width:auto;height:auto}
+.lb-cap{font-family:var(--f-hand);font-weight:500;font-size:var(--fs-hand);color:var(--lb-ink);margin-top:12px;display:flex;justify-content:space-between;gap:16px}
+.lb-cap .mono{color:var(--lb-ink);opacity:.85;align-self:center}
+@keyframes lift{from{rotate:-2deg;scale:.9;translate:0 22px}to{rotate:0deg;scale:1;translate:0 0}}
+.lb-btn{position:fixed;z-index:2;appearance:none;border:1.5px solid var(--lb-ink);background:rgba(42,22,20,.45);color:var(--lb-ink);width:44px;height:44px;border-radius:50%;font:500 20px/1 var(--f-body);cursor:pointer}
+.lb-btn:hover{background:var(--lb-hover)}
+.lb-btn:focus-visible{outline:2px dashed var(--lb-ink);outline-offset:3px}
+.lb-prev{left:12px;top:calc(50% - 22px)}.lb-next{right:12px;top:calc(50% - 22px)}.lb-close{right:12px;top:12px}
+@media (max-width: 640px){ .lb{padding:56px 12px} .lb-frame img{max-width:calc(100vw - 48px)} .lb-prev,.lb-next{top:auto;bottom:12px} }

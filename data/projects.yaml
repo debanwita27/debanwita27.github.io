@@ -1,0 +1,27 @@
+heading: Projects
+items:
+  - name: Naksha
+    url: https://github.com/debanwita27/Naksha
+    desc: indoor AR navigation in Unity
+  - name: SocketProg
+    url: https://github.com/debanwita27/SocketProg
+    desc: multi-user moodboard notes, React + Socket.io
+  - name: Agrodev
+    url: https://github.com/debanwita27/BetaWare
+    desc: farmer portal + ML crop picks
+  - name: LinkedIn Connect
+    url: https://github.com/debanwita27/LinkedIn-Connect
+    desc: accept-all chrome extension
+  - name: Design Stuff
+    url: https://github.com/debanwita27/Design_Stuff
+    desc: small UI experiments
+  - name: ML Stuff
+    url: https://github.com/debanwita27/ML-Stuff
+    desc: most of my ML projects
+  - name: Canvas Stuff
+    url: https://github.com/debanwita27/Canvas_Stuff
+    desc: generative art + small games
+    aside: (clearly not the best at naming plurals)
+more:
+  text: "…and more on my github"
+  url: https://github.com/debanwita27

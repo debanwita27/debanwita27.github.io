@@ -1,0 +1,22 @@
+# Pixel sprites: rows of palette keys, "." is transparent.
+# Keys are single lowercase letters: Hugo data map keys are case-insensitive, so "Y" and "u" would collide.
+cat:
+  pal: {d: "#413130", p: "#d47870", w: "#F5EEE3", o: "#4a5828", s: "#6a9a30", u: "#f0d040"}
+  rows: ["......w......", ".....wuw.....", "......w......", "......s......", "..dd.ooo.dd..", ".dpddoooddpd.", "ddppddoddppdd", "ddddddddddddd", "ddddddddddddd", "ddwwdddddwwdd", "dwddwdddwddwd", "dwddwdddwddwd", "ddwwddpddwwdd", "ddddddddddddd", "..ddddddddd.."]
+catBlink:
+  pal: {d: "#413130", p: "#d47870", w: "#F5EEE3", o: "#4a5828", s: "#6a9a30", u: "#f0d040"}
+  rows: ["......w......", ".....wuw.....", "......w......", "......s......", "..dd.ooo.dd..", ".dpddoooddpd.", "ddppddoddppdd", "ddddddddddddd", "ddddddddddddd", "ddddddddddddd", "ddddddddddddd", "dwwwwdddwwwwd", "ddwwddpddwwdd", "ddddddddddddd", "..ddddddddd.."]
+catNap:
+  # asleep: both eyes shut to a single lash line (the home shelf's napping cat)
+  pal: {d: "#413130", p: "#d47870", w: "#F5EEE3", o: "#4a5828", s: "#6a9a30", u: "#f0d040"}
+  rows: ["......w......", ".....wuw.....", "......w......", "......s......", "..dd.ooo.dd..", ".dpddoooddpd.", "ddppddoddppdd", "ddddddddddddd", "ddddddddddddd", "ddddddddddddd", "ddddddddddddd", "dwwwwdddwwwwd", "ddddddpdddddd", "ddddddddddddd", "..ddddddddd.."]
+catGrumpy:
+  # woken up: slanted brows over half-open eyes (the shelf cat after a click)
+  pal: {d: "#413130", p: "#d47870", w: "#F5EEE3", o: "#4a5828", s: "#6a9a30", u: "#f0d040"}
+  rows: ["......w......", ".....wuw.....", "......w......", "......s......", "..dd.ooo.dd..", ".dpddoooddpd.", "ddppddoddppdd", "ddddddddddddd", "ddddddddddddd", "dwwdddddddwwd", "dddwwdddwwddd", "dwwwwdddwwwwd", "dwddwdpdwddwd", "ddddddddddddd", "..ddddddddd.."]
+duck:
+  pal: {u: "#ffd640", g: "#eaa82a", h: "#fff4b0", b: "#ff8824", r: "#e07020", k: "#281e1e"}
+  rows: ["....huu.", "...uuukb", "u..uuuur", "uuuuuuu.", ".ugguuu.", "..gggg.."]
+mama:
+  pal: {w: "#FBF6EE", s: "#d9cfbf", k: "#281e1e", b: "#ff8824"}
+  rows: ["......wwww..", ".....wwwwkbb", "w....wwwww..", "wwwwwwwwww..", "wwwwwwwwww..", ".wwssswww...", "..sssss....."]

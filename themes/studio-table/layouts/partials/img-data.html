@@ -1,0 +1,33 @@
+{{- /* Resolves an image for figures and galleries.
+       Args: page, src, ratio (fallback "w/h"), width, height (for remote images).
+       Returns dict: src, srcset, full, w, h, ar.
+       Page-bundle rasters are resized to webp with a srcset; SVGs and remote URLs pass through. */ -}}
+{{- $src := .src }}
+{{- $w := .width | default 0 | int }}{{ $h := .height | default 0 | int }}
+{{- with .ratio }}{{ $p := split . "/" }}{{ if and (eq $w 0) (eq (len $p) 2) }}{{ $w = int (index $p 0) }}{{ $h = int (index $p 1) }}{{ end }}{{ end }}
+{{- $out := dict "src" $src "srcset" "" "full" $src }}
+{{- $r := "" }}
+{{- if not (or (hasPrefix $src "http://") (hasPrefix $src "https://") (hasPrefix $src "//")) }}
+  {{- $r = .page.Resources.GetMatch $src }}
+  {{- if not $r }}{{ $r = resources.Get $src }}{{ end }}
+  {{- if not $r }}{{ errorf "img: %q not found in %s's bundle or assets" $src .page.File.Path }}{{ end }}
+{{- end }}
+{{- with $r }}
+  {{- if eq .MediaType.SubType "svg" }}
+    {{- $out = dict "src" .RelPermalink "srcset" "" "full" .RelPermalink }}
+    {{- with findRE `viewBox="[^"]*"` .Content 1 }}
+      {{- $vb := split (replaceRE `[^0-9. ]` "" (index . 0)) " " }}
+      {{- if eq (len $vb) 4 }}{{ $w = int (float (index $vb 2)) }}{{ $h = int (float (index $vb 3)) }}{{ end }}
+    {{- end }}
+  {{- else if eq .ResourceType "image" }}
+    {{- $set := slice }}
+    {{- range slice 480 800 1200 1600 }}{{ if le . $r.Width }}{{ $i := $r.Resize (printf "%dx webp q82" .) }}{{ $set = $set | append (printf "%s %dw" $i.RelPermalink .) }}{{ end }}{{ end }}
+    {{- $mid := $r.Resize (printf "%dx webp q82" (cond (gt $r.Width 1200) 1200 $r.Width)) }}
+    {{- $full := $r.Resize (printf "%dx webp q85" (cond (gt $r.Width 2000) 2000 $r.Width)) }}
+    {{- if not $set }}{{ $set = slice (printf "%s %dw" $mid.RelPermalink $mid.Width) }}{{ end }}
+    {{- $out = dict "src" $mid.RelPermalink "srcset" (delimit $set ", ") "full" $full.RelPermalink }}
+    {{- $w = $mid.Width }}{{ $h = $mid.Height }}
+  {{- end }}
+{{- end }}
+{{- $ar := 1.5 }}{{ if and (gt $w 0) (gt $h 0) }}{{ $ar = div (float $w) $h }}{{ end }}
+{{- return merge $out (dict "w" $w "h" $h "ar" $ar) -}}

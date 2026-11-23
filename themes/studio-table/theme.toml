@@ -1,0 +1,7 @@
+name = "Studio Table"
+license = "MIT"
+description = "A painter's desk: washi tape, luggage tags, gingham grounds and tangents in the margins. Two themes, strawberry matcha and cranberry cold brew."
+min_version = "0.111.0"
+
+[author]
+  name = "Debanwita Mahato"

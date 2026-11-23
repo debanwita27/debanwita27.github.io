@@ -1,0 +1,78 @@
+/* Plain, readable layout for the posts and logs indexes and for the pages that have not had
+   their own design pass yet: about and 404. */
+.stub-main{padding-block:clamp(28px,5vw,60px) clamp(80px,10vw,120px)}
+.stub{max-width:740px;margin:0 auto;padding:clamp(28px,5vw,56px) clamp(20px,5vw,56px)}
+.stub .page-title{margin-bottom:18px}
+.stub-hand{font-size:var(--fs-hand-l);color:var(--p-madder);rotate:-2deg}
+.stub-meta{color:var(--p-soft);margin:16px 0 8px}
+.stub-title{font-size:var(--fs-h1-post);text-wrap:balance;color:var(--p-ink);margin-bottom:12px}
+.stub-dek{font-family:var(--f-display);font-style:italic;font-weight:var(--fw-display);font-size:var(--fs-dek);line-height:1.35;color:var(--p-soft)}
+.stub-body{margin-top:24px}
+.stub-body p,.stub-body ul,.stub-body ol{margin-bottom:1.1em}
+.stub-body ul{list-style:disc;padding-left:1.3em}
+.stub-body ol{list-style:decimal;padding-left:1.3em}
+.stub-body h2,.stub-body h3{font-family:var(--f-display);margin:1.4em 0 .5em;color:var(--p-head)}
+.stub-body h2{font-weight:var(--fw-display);font-size:var(--fs-h2);line-height:var(--lh-h2);letter-spacing:-.01em}
+.stub-body h3{font-weight:var(--fw-title);font-size:var(--fs-h3);line-height:var(--lh-h3)}
+.stub-back{color:inherit;text-decoration:underline;text-decoration-color:var(--p-madder);text-decoration-thickness:1.5px;text-underline-offset:4px}
+.stub-back:hover{color:var(--p-madder)}
+.stub-body img{max-width:100%;height:auto}
+.stub-back{display:inline-block;margin-top:28px;font-family:var(--f-hand);font-weight:500;font-size:var(--fs-hand)}
+
+/* ============================ posts / logs index ============================ */
+.ix{--tab-bg:color-mix(in srgb, var(--p-ink) 6%, var(--paper));--tab-hover:color-mix(in srgb, var(--p-ink) 11%, var(--paper));--tab-edge:color-mix(in srgb, var(--p-ink) 12%, transparent)}
+
+/* Filter: divider tabs standing on a baseline rule, each with a lip in its tag colour.
+   The rule is a background so it always spans the visible width, even while the row scrolls;
+   the 4px of bottom padding keeps focus rings from being clipped by the scroller. */
+.ix-tabs{display:flex;align-items:flex-end;gap:5px;margin:10px -4px 0;padding:8px 4px 4px;overflow-x:auto;scrollbar-width:none;overscroll-behavior-x:contain;
+  background:linear-gradient(var(--row-rule), var(--row-rule)) left 4px bottom 4px / calc(100% - 8px) 2px no-repeat}
+.ix-tabs::-webkit-scrollbar{display:none}
+.ix-tabs.more-l{-webkit-mask-image:linear-gradient(90deg, transparent, #000 28px);mask-image:linear-gradient(90deg, transparent, #000 28px)}
+.ix-tabs.more-r{-webkit-mask-image:linear-gradient(90deg, #000 calc(100% - 28px), transparent);mask-image:linear-gradient(90deg, #000 calc(100% - 28px), transparent)}
+.ix-tabs.more-l.more-r{-webkit-mask-image:linear-gradient(90deg, transparent, #000 28px calc(100% - 28px), transparent);mask-image:linear-gradient(90deg, transparent, #000 28px calc(100% - 28px), transparent)}
+.ix-tabs[hidden]{display:none}
+.ix-tab{--c:var(--chip-l, transparent);flex:none;appearance:none;border:0;margin:0 0 2px;cursor:pointer;
+  display:inline-flex;align-items:baseline;gap:6px;padding:9px 13px 7px;border-radius:9px 9px 0 0;
+  font:500 var(--fs-ui)/1.2 var(--f-body);letter-spacing:.01em;color:var(--p-ink);background-color:var(--tab-bg);
+  box-shadow:inset 0 3px 0 var(--c), inset 1px 0 0 var(--tab-edge), inset -1px 0 0 var(--tab-edge);
+  transition:background-color .2s ease, color .2s ease}
+[data-theme="cranberry-cold-brew"] .ix-tab{--c:var(--chip-d, transparent)}
+.ix-tab .n{font-size:var(--fs-meta);color:var(--p-soft);font-variant-numeric:tabular-nums;transition:color .2s ease}
+.ix-tab:hover{background-color:var(--tab-hover)}
+/* the active tab stands taller and covers the baseline, like a pulled divider */
+.ix-tab[aria-pressed="true"]{background-color:var(--p-ink);color:var(--paper);padding-top:13px;margin-bottom:0;cursor:default;
+  box-shadow:inset 0 3px 0 var(--c)}
+.ix-tab[aria-pressed="true"] .n{color:color-mix(in srgb, var(--paper) 68%, var(--p-ink))}
+.ix-tab:focus-visible{outline:2px dashed var(--p-madder);outline-offset:2px;border-radius:9px 9px 2px 2px}
+
+/* The list. Rules sit between visible rows only, so a filtered list never opens or ends on a
+   stray rule; .is-leaving rows are fading out of the flow (js/index.js). */
+.ix-list{position:relative;margin-top:8px;border-top:1px dashed var(--foot-dash)}
+.ix-tabs:not([hidden]) ~ .ix-list{margin-top:0;border-top:0}
+.ix-item{padding:16px 0 18px}
+.ix-item:not([hidden], .is-leaving) ~ .ix-item:not([hidden], .is-leaving), .ix-item.keep-rule{border-top:1px dashed var(--foot-dash)}
+.ix-item.is-leaving{position:absolute;left:0;right:0;pointer-events:none}
+.ix-item article{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:baseline;gap:8px 28px}
+.ix-title{grid-column:1;font-family:var(--f-display);font-weight:var(--fw-title);font-size:var(--fs-h3);line-height:var(--lh-h3);letter-spacing:-.01em;text-wrap:pretty}
+.ix-title a{color:var(--p-ink);text-decoration:none;transition:color .2s ease}
+.ix-go{display:inline-block;width:30px;height:14px;margin-left:8px;vertical-align:-1px;opacity:0;translate:-6px 0;transition:opacity .2s ease, translate .3s var(--ease)}
+.ix-title a:hover, .ix-title a:focus-visible{color:var(--p-madder)}
+.ix-title a:hover .ix-go, .ix-title a:focus-visible .ix-go{opacity:1;translate:0 0}
+.ix-title a:focus-visible{outline:2px dashed var(--p-madder);outline-offset:4px;border-radius:3px}
+.ix-meta{grid-column:2;grid-row:1;color:var(--p-soft);white-space:nowrap}
+.ix-draft{color:var(--p-madder)}
+.ix-dek,.ix-chips{grid-column:1}
+.ix-chips{margin-top:-2px}
+
+/* featured: a touch more presence in the same flow; a bigger title and a short excerpt */
+.ix-item.is-featured{padding-block:22px 24px}
+.ix-item.is-featured .ix-title{font-weight:var(--fw-display);font-size:var(--fs-h2);line-height:var(--lh-h2);letter-spacing:-.01em}
+.ix-dek{max-width:56ch;font-family:var(--f-display);font-style:italic;font-weight:var(--fw-display);font-size:var(--fs-body);line-height:1.45;color:var(--p-soft);
+  display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;overflow:hidden}
+
+@media (max-width: 560px){
+  .ix-item article{grid-template-columns:minmax(0,1fr);gap:6px}
+  .ix-meta{grid-column:1;grid-row:auto;white-space:normal}
+  .ix-tab{padding-inline:12px}
+}

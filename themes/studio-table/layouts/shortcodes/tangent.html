@@ -1,0 +1,20 @@
+{{- /* {{< tangent side="right" style="sticky" label="tangent" note="The aside, in **markdown**." >}}highlighted phrase{{< /tangent >}}
+       side:  left | right (default right)        style: sticky | paper | taped | card (default sticky; scrap = paper)
+       label: small heading on the note (default "tangent")
+       arrow: swoosh | loop (default swoosh; the connector's shape past the text column)
+       tone:  rose | sand | leaf | blue (defaults by style: sticky rose, paper sand, taped leaf, card blue)
+   The <aside> is emitted inside a <tn-move> wrapper; posts/single.html moves it to just after
+   the paragraph that holds the highlight, so source order stays: paragraph, then its note. */ -}}
+{{- $side := .Get "side" | default "right" }}
+{{- $style := .Get "style" | default "sticky" }}
+{{- if eq $style "scrap" }}{{ $style = "paper" }}{{ end }}
+{{- if not (in (slice "left" "right") $side) }}{{ errorf "tangent: side must be left or right in %s" .Page.File.Path }}{{ end }}
+{{- if not (in (slice "sticky" "paper" "taped" "card") $style) }}{{ errorf "tangent: unknown style %q in %s" $style .Page.File.Path }}{{ end }}
+{{- $tone := .Get "tone" | default (index (dict "sticky" "rose" "paper" "sand" "taped" "leaf" "card" "blue") $style) }}
+{{- $label := .Get "label" | default "tangent" }}
+{{- $note := .Get "note" }}
+{{- if not $note }}{{ errorf "tangent: missing note=\"...\" in %s" .Page.File.Path }}{{ end }}
+{{- $id := printf "tn-%d" .Ordinal }}
+{{- $tape := index (dict "sticky" "strawberry-stripe" "paper" "none" "taped" "matcha-diagonal" "card" "none") $style -}}
+<mark class="tn-hl" id="{{ $id }}-hl" data-tone="{{ $tone }}" aria-details="{{ $id }}">{{ .Inner | .Page.RenderString }}</mark><a class="tn-ref" href="#{{ $id }}" id="{{ $id }}-ref" data-tone="{{ $tone }}" aria-label="See note: {{ $label }}"><span class="tn-n"></span></a><tn-move><aside class="tn tn-{{ $style }}" id="{{ $id }}" data-side="{{ $side }}" data-tone="{{ $tone }}" data-arrow="{{ .Get "arrow" | default "swoosh" }}" tabindex="-1" aria-labelledby="{{ $id }}-lbl">{{ if ne $tape "none" }}{{ partial "tape.html" (dict "name" $tape "tilt" (cond (eq $style "taped") -4 -3)) }}{{ end }}<span class="tn-label" id="{{ $id }}-lbl"><span class="tn-n"></span> {{ $label }}</span><span class="tn-text">{{ $note | .Page.RenderString }}</span></aside></tn-move>
+{{- /**/ -}}

@@ -1,0 +1,178 @@
+/* =====================================================================
+   Page grounds. <div class="ground ground-posts"> ... </div>
+   .ground-posts  pink painted gingham        (cranberry: burgundy plaid)
+   .ground-logs   sage wobbly checkerboard    (cranberry: chocolate plaid)
+   .ground-index  tone-on-tone gingham        (cranberry: warm pencil grid)
+   .ground-sky    sky-blue painted gingham    (cranberry: plum dusk check)   404
+   ===================================================================== */
+.ground{position:relative;isolation:isolate;overflow:hidden}
+.ground::before{content:"";position:absolute;inset:-36px;z-index:-2;filter:url(#paint)}
+.ground::after{content:"";position:absolute;inset:0;z-index:-1;background-image:var(--grain-g);pointer-events:none}
+.ground-posts::before{background-color:#F7EEE8;background-image:
+  radial-gradient(40% 30% at 70% 20%, rgba(255,250,244,.5), transparent 70%),
+  linear-gradient(90deg, rgba(216,164,175,.46) 50%, transparent 0),
+  linear-gradient(rgba(216,164,175,.46) 50%, transparent 0);background-size:100% 100%,46px 46px,46px 46px}
+.ground-logs::before{filter:url(#chalk);background-color:#F4F2EB;background-image:
+  conic-gradient(rgba(176,186,124,.44) 25%, transparent 0 50%, rgba(176,186,124,.44) 0 75%, transparent 0);background-size:84px 84px}
+.ground-index::before{filter:none;background-color:#F6F2EC;background-image:
+  linear-gradient(90deg, rgba(196,170,140,.13) 0 46%, transparent 54%),linear-gradient(rgba(196,170,140,.13) 0 46%, transparent 54%);background-size:64px 64px}
+/* same recipe and 46px repeat as .ground-posts; two .62 bands give a ~.86 crossing square */
+.ground-sky::before{background-color:#F2F0EC;background-image:
+  radial-gradient(40% 30% at 30% 18%, rgba(255,252,246,.45), transparent 70%),
+  linear-gradient(90deg, rgba(175,184,205,.62) 50%, transparent 0),
+  linear-gradient(rgba(175,184,205,.62) 50%, transparent 0);background-size:100% 100%,46px 46px,46px 46px}
+/* dusk: a desaturated plum-slate a few lightness steps apart, bridging the blue gingham and the wine papers */
+[data-theme="cranberry-cold-brew"] .ground-sky::before{background-color:#201820;background-image:
+  linear-gradient(90deg, rgba(86,64,94,.14) 50%, transparent 0),
+  linear-gradient(rgba(86,64,94,.14) 50%, transparent 0);background-size:46px 46px}
+/* burgundy plaid: wide wine bands, a dark sett line and paired rose pinstripes, one 120px repeat */
+[data-theme="cranberry-cold-brew"] .ground-posts::before{background-color:#220D11;background-image:
+  linear-gradient(90deg, transparent 0 58%, rgba(214,132,150,.1) 58% calc(58% + 1.5px), transparent 0 62%, rgba(214,132,150,.1) 62% calc(62% + 1.5px), transparent 0),
+  linear-gradient(transparent 0 58%, rgba(214,132,150,.1) 58% calc(58% + 1.5px), transparent 0 62%, rgba(214,132,150,.1) 62% calc(62% + 1.5px), transparent 0),
+  linear-gradient(90deg, transparent 0 20%, rgba(0,0,0,.1) 20% 24%, transparent 0),
+  linear-gradient(transparent 0 20%, rgba(0,0,0,.1) 20% 24%, transparent 0),
+  linear-gradient(90deg, rgba(100,34,48,.24) 0 42%, transparent 0),
+  linear-gradient(rgba(100,34,48,.18) 0 42%, transparent 0);
+  background-size:120px 120px}
+/* chocolate plaid: espresso and coffee bands with a fine beige double line */
+[data-theme="cranberry-cold-brew"] .ground-logs::before{background-color:#1A120E;background-image:
+  linear-gradient(90deg, transparent 0 70%, rgba(216,195,165,.07) 70% calc(70% + 1.5px), transparent 0 73%, rgba(216,195,165,.07) 73% calc(73% + 1.5px), transparent 0),
+  linear-gradient(transparent 0 70%, rgba(216,195,165,.07) 70% calc(70% + 1.5px), transparent 0 73%, rgba(216,195,165,.07) 73% calc(73% + 1.5px), transparent 0),
+  linear-gradient(90deg, transparent 0 40%, rgba(139,107,74,.08) 40% 56%, transparent 0),
+  linear-gradient(transparent 0 40%, rgba(139,107,74,.08) 40% 56%, transparent 0),
+  linear-gradient(90deg, rgba(88,60,40,.32) 0 30%, transparent 0),
+  linear-gradient(rgba(88,60,40,.28) 0 30%, transparent 0);
+  background-size:140px 140px}
+/* pencil grid: a fine 16px grid with a heavier line every fifth square */
+[data-theme="cranberry-cold-brew"] .ground-index::before{background-color:#1B110D;background-image:
+  linear-gradient(90deg, rgba(216,195,165,.1) 1px, transparent 1px),linear-gradient(rgba(216,195,165,.1) 1px, transparent 1px),
+  linear-gradient(90deg, rgba(216,195,165,.045) 1px, transparent 1px),linear-gradient(rgba(216,195,165,.045) 1px, transparent 1px);
+  background-size:80px 80px,80px 80px,16px 16px,16px 16px}
+
+/* ============================ base ============================ */
+*{box-sizing:border-box}
+html,body{overflow-x:clip}
+body{margin:0;background-color:var(--ground);background-image:var(--grain-g);color:var(--ink);
+  font-family:var(--f-body);font-size:var(--fs-body);line-height:var(--lh-body);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+:focus-visible{outline:2px dashed var(--madder);outline-offset:4px;border-radius:2px}
+h1,h2,h3,p,ul,ol{margin:0}
+ul,ol{padding:0;list-style:none}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.wrap{max-width:1180px;margin-inline:auto;padding-inline:clamp(16px,4vw,48px)}
+/* small uppercase labels */
+.mono{font-family:var(--f-body);font-weight:500;font-size:var(--fs-meta);letter-spacing:var(--tr-meta);text-transform:uppercase;font-variant-numeric:tabular-nums}
+.hand{font-family:var(--f-hand);font-weight:500}
+code,pre{font-family:var(--f-mono);font-size:.9em}
+code{background:color-mix(in srgb, var(--p-ink) 7%, transparent);padding:.1em .3em;border-radius:3px}
+pre{overflow-x:auto;padding:14px 16px;background:color-mix(in srgb, var(--p-ink) 6%, transparent);border-radius:3px;line-height:1.55}
+pre code{background:none;padding:0;font-size:1em}
+.arrow{fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.grain{background-image:var(--grain-dark)}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.3s;animation-timing-function:ease}
+/* the switchers animate themselves; keep them out of the page crossfade */
+::view-transition-old(theme-ctl){display:none}
+::view-transition-new(theme-ctl){animation:none}
+::view-transition-group(theme-ctl){animation:none}
+/* fallback crossfade where View Transitions are missing; the switcher is excluded so this
+   !important list doesn't overwrite its own width and label transitions */
+html.theme-fade, html.theme-fade :not(.theme, .theme *), html.theme-fade :not(.theme, .theme *)::before, html.theme-fade :not(.theme, .theme *)::after{
+  transition:background-color .3s ease, color .3s ease, border-color .3s ease, fill .3s ease, stroke .3s ease, outline-color .3s ease !important}
+
+/* ============================ header ============================ */
+.site-head{display:flex;align-items:center;justify-content:space-between;gap:12px 20px;padding-block:22px 10px;position:relative;z-index:5}
+.logo{flex:none;display:inline-grid;place-items:center;width:50px;height:50px;background:var(--logo-tile);background-image:var(--grain-p);border-radius:4px 7px 5px 6px;rotate:-3deg;transition:rotate .35s var(--ease)}
+.logo:hover{rotate:3deg}
+.logo svg{width:32px;height:auto;display:block;filter:drop-shadow(1px 0 0 var(--cat-outline)) drop-shadow(-1px 0 0 var(--cat-outline)) drop-shadow(0 1px 0 var(--cat-outline)) drop-shadow(0 -1px 0 var(--cat-outline))}
+.head-right{display:flex;align-items:center;gap:14px 26px;justify-content:flex-end;min-width:0}
+.site-nav ul{display:flex;gap:4px 26px}
+.site-nav a{font-family:var(--f-body);font-weight:500;font-size:var(--fs-ui);letter-spacing:.02em;text-decoration:none;position:relative;display:inline-block;padding:6px 4px}
+.site-nav a:hover{color:var(--nav-hover, var(--madder))}
+.site-nav a[aria-current="page"] svg{position:absolute;left:-14px;top:-4px;width:calc(100% + 28px);height:calc(100% + 8px);color:var(--madder);overflow:visible;pointer-events:none}
+
+
+/* ============================ drink glasses (both switchers) ============================ */
+.theme{flex:none;view-transition-name:theme-ctl}
+.drink{display:block;overflow:visible}
+.drink .gl{fill:none;stroke:currentColor;stroke-width:1.35;stroke-linecap:round;stroke-linejoin:round}
+.drink .liq{transform-box:view-box}
+.drink.pour .liq{animation:refill .38s var(--ease) both}
+@keyframes refill{from{transform:translateY(17px)}to{transform:none}}
+@keyframes drain{from{transform:none}to{transform:translateY(17px)}}
+
+/* ============================ shared paper bits ============================ */
+.page{min-height:100vh}
+.paper{background-color:var(--paper);background-image:var(--grain-p);color:var(--p-ink);position:relative;
+  box-shadow:inset 0 0 0 1px var(--paper-edge), 0 1px 0 rgba(var(--shadow),.08), 0 16px 24px -16px rgba(var(--shadow),.5)}
+/* Washi tape: partials/tape.html emits <span class="tape tape--NAME">; data/tapes.yaml lists the
+   names. Each .tape--NAME only sets --tape-bg, so the hero washi links reuse the same patterns. */
+.tape{position:absolute;top:-12px;left:calc(50% - 38px);width:76px;height:24px;z-index:3;--tr:-3deg;rotate:var(--tr);pointer-events:none;
+  background:var(--tape-bg);opacity:.9;
+  clip-path:polygon(0 8%,4% 0,8% 10%,12% 2%,88% 2%,92% 12%,96% 0,100% 10%,100% 92%,96% 100%,92% 88%,88% 100%,12% 98%,8% 88%,4% 100%,0 90%);
+  box-shadow:0 1px 2px rgba(var(--shadow),.15)}
+.tape--strawberry-stripe{--tape-bg:repeating-linear-gradient(90deg, var(--t1a) 0 7px, var(--t1b) 7px 14px)}
+.tape--matcha-diagonal{--tape-bg:repeating-linear-gradient(45deg, var(--t2a) 0 6px, var(--t2b) 6px 12px)}
+.tape--sky-check{--tape-bg:conic-gradient(var(--t3a) 25%, var(--t3b) 0 50%, var(--t3a) 0 75%, var(--t3b) 0) 0 0/10px 10px}
+.tape--peony-dots{--tape-bg:radial-gradient(circle, var(--t4d) 1.6px, transparent 2.2px) 0 0/8px 8px, var(--t4b)}
+.tape--lavender-plain{--tape-bg:var(--t5)}
+.tape--peach-pinstripe{--tape-bg:var(--t6a)}
+/* pinstripes: hand-wobbled vertical rules every ~14%, painted through a mask so they take the token
+   colour; a rougher torn edge, and a touch more see-through than the others */
+.tape.tape--peach-pinstripe{opacity:.84;
+  clip-path:polygon(0 10%,5% 3%,11% 8%,19% 1%,27% 6%,36% 0,45% 5%,55% 1%,63% 7%,72% 2%,81% 6%,90% 0,96% 5%,100% 2%,100% 94%,95% 99%,88% 93%,79% 100%,70% 95%,61% 99%,52% 94%,43% 100%,34% 95%,25% 99%,16% 93%,8% 100%,3% 95%,0 99%)}
+.tape.tape--peach-pinstripe::before{content:"";position:absolute;inset:0;background:var(--t6b);
+  -webkit-mask:var(--pin-lines) 0 0/100% 100% no-repeat;mask:var(--pin-lines) 0 0/100% 100% no-repeat;
+  --pin-lines:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 24' preserveAspectRatio='none'%3E%3Cg fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='M7 0q.8 6 0 12t.4 12'/%3E%3Cpath d='M21 0q-.7 7 .2 13t-.5 11'/%3E%3Cpath d='M35 0q.6 5-.3 12t.5 12'/%3E%3Cpath d='M49 0q-.5 6 .4 12t-.3 12'/%3E%3Cpath d='M63 0q.7 7-.2 13t.4 11'/%3E%3Cpath d='M77 0q-.6 5 .3 12t-.4 12'/%3E%3Cpath d='M91 0q.5 6-.4 12t.3 12'/%3E%3C/g%3E%3C/svg%3E")}
+/* placements: pos="top" is the default above; tilt sets --tr */
+.tape--at-top-left{left:44px;right:auto}
+.tape--at-top-right{left:auto;right:44px}
+.tape--at-corner-left{top:-6px;left:-18px;--tr:-38deg}
+.tape--at-corner-right{top:-6px;left:auto;right:-18px;--tr:38deg}
+.display{font-family:var(--f-display);font-weight:var(--fw-display);font-variation-settings:"opsz" 144,"SOFT" 0,"WONK" 0;letter-spacing:-.02em;line-height:.98}
+.page-title{font-size:var(--fs-h1-index);color:var(--ink)}
+.page-title + .hand{display:block;font-size:var(--fs-hand-l);line-height:1.1;color:var(--madder);rotate:-2deg;margin-top:8px}
+.sample-tag{display:inline-block;font-family:var(--f-body);font-weight:500;font-size:var(--fs-label);letter-spacing:var(--tr-label);text-transform:uppercase;border:1.5px dashed currentColor;padding:2px 8px;rotate:-4deg;line-height:1.4}
+
+@media (max-width: 640px){
+  .site-head{padding-top:16px}
+  .head-right{gap:12px 18px}
+  .site-nav ul{gap:4px 18px}
+}
+@media (max-width: 440px){
+  .site-nav ul{gap:4px 12px}
+  .head-right{gap:10px}
+  .site-nav a{font-size:14px}
+  .site-nav a[aria-current="page"] svg{left:-9px;width:calc(100% + 18px)}
+}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none !important;transition:none !important}
+}
+
+/* ============================ tag chips ============================
+   Colours come from data/tags.yaml as --chip-l / --chip-d / --chip-t on each chip.
+   Quiet flags at about the weight of the meta line: a tint of the tag colour with the tag colour
+   as text. Light: a 15% tint with the chip colour deepened toward ink; dark: a 32% tint with the
+   tag's dark ink. Both clear 4.5:1 for every tag in data/tags.yaml; recheck when adding one. */
+.tagchip{--c:var(--chip-l);--bg:color-mix(in srgb, var(--c) 15%, var(--paper));--fg:color-mix(in srgb, var(--c) 78%, var(--p-ink));
+  display:inline-flex;align-items:center;gap:5px;background:var(--bg);color:var(--fg);font-family:var(--f-body);font-weight:500;font-size:var(--fs-label);line-height:14px;letter-spacing:var(--tr-label);text-transform:uppercase;padding:3px 9px 3px 7px;
+  clip-path:polygon(0 0,100% 0,calc(100% - 4px) 50%,100% 100%,0 100%);text-decoration:none;transition:background-color .2s ease}
+[data-theme="cranberry-cold-brew"] .tagchip{--c:var(--chip-d);--bg:color-mix(in srgb, var(--c) 32%, var(--paper));--fg:var(--chip-t, var(--p-ink))}
+.tagchip::before{content:"";width:5px;height:5px;border-radius:50%;background:currentColor}
+a.tagchip:hover{--bg:color-mix(in srgb, var(--c) 24%, var(--paper))}
+[data-theme="cranberry-cold-brew"] a.tagchip:hover{--bg:color-mix(in srgb, var(--c) 44%, var(--paper))}
+.tagchip:focus-visible{clip-path:none}
+.chips{display:inline-flex;flex-wrap:wrap;gap:6px;vertical-align:middle}
+
+/* ============================ inline links ============================
+   Links in running text: accent colour at weight 600, no resting underline (underlines belong to
+   tangent notes and highlights). Hover and keyboard focus slide a 1.5px underline in from the left.
+   Links with a class (chips, washi, tags, tangent markers, back links) and links wrapping an image
+   keep their own styles. Contexts retune the colour through --link-c: tangent notes and
+   highlights sit on tinted fills where the accent would miss 4.5:1, so they use the text colour. */
+:is(.post-body,.stub-body,.sheet,.shelf-cap,.role) a:not([class]):not(:has(img,figure,svg)){color:var(--link-c,var(--p-madder));font-family:var(--f-body);font-weight:600;text-decoration:none;
+  background:linear-gradient(currentColor,currentColor) 0 100%/0 1.5px no-repeat;
+  -webkit-box-decoration-break:clone;box-decoration-break:clone;transition:background-size .18s var(--ease)}
+:is(.post-body,.stub-body,.sheet,.shelf-cap,.role) a:not([class]):not(:has(img,figure,svg)):is(:hover,:focus-visible){background-size:100% 1.5px}
+/* external: a small raised arrow; the word joiner keeps it from wrapping alone, the empty alt text keeps it out of the accessibility tree */
+:is(.post-body,.stub-body,.sheet,.shelf-cap,.role) a:not([class]):not(:has(img,figure,svg)):is([href^="http://"],[href^="https://"]):not(:is([href^="https://debanwita.me"],[href^="http://debanwita.me"],[href^="https://www.debanwita.me"],[href^="http://www.debanwita.me"]))::after{content:"\2060\2197";content:"\2060\2197" / "";font-size:.8em;line-height:0;vertical-align:.2em;margin-left:.12em}
+.tn,.tn-hl{--link-c:currentColor}

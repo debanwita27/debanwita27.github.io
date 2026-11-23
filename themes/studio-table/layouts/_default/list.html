@@ -1,0 +1,54 @@
+{{ define "main" }}
+{{- /* The posts and logs indexes: one flat list, newest first. Logs get no tag chips and no
+       filter, since every item is a log.
+       Front matter read here:
+         featured: true   the row renders a touch larger, with `description` as a short excerpt.
+                          It keeps its place in the date order.
+         draft: true      shows a "draft" note in the meta line (drafts only build with -D). */ -}}
+{{- $pages := .RegularPages.ByDate.Reverse }}
+{{- $tagged := eq .Section "posts" }}
+{{- $counts := dict }}
+{{- if $tagged }}{{ range $pages }}{{ range partial "tags-of.html" . }}{{ $counts = merge $counts (dict . (add (index $counts . | default 0) 1)) }}{{ end }}{{ end }}{{ end }}
+<div class="page ground {{ partial "stub-ground.html" . }}">
+{{ partial "header.html" . }}
+<main class="wrap stub-main">
+  <div class="stub ix paper">
+    {{ partial "tape.html" (dict "name" (cond (eq .Section "logs") "lavender-plain" "sky-check") "tilt" (cond (eq .Section "logs") -2.5 2)) }}
+    <h1 class="display page-title">{{ .Title | lower }}</h1>
+    {{ with .Content }}<div class="stub-body">{{ . }}</div>{{ end }}
+    {{- if and $tagged (gt (len $counts) 0) }}
+    {{- /* Hidden until js/index.js wires it up, so without JS the full list simply shows. */}}
+    <div class="ix-tabs" role="group" aria-label="Filter {{ .Title | lower }} by tag" aria-controls="ix-list" hidden>
+      <button class="ix-tab" type="button" data-tag="" aria-pressed="true">all<span class="n">{{ len $pages }}</span></button>
+      {{- range $t, $n := $counts }}
+      {{- $d := index site.Data.tags $t | default (index site.Data.tags "_default") }}
+      <button class="ix-tab" type="button" data-tag="{{ $t }}" aria-pressed="false" style="{{ printf "--chip-l:%s;--chip-d:%s" $d.chip.light $d.chip.dark | safeCSS }}">{{ $t }}<span class="n">{{ $n }}</span></button>
+      {{- end }}
+    </div>
+    <p class="sr-only" aria-live="polite" data-ix-status></p>
+    {{- end }}
+    <ul class="ix-list" id="ix-list">
+      {{- range $pages }}
+      {{- $tags := cond $tagged (partial "tags-of.html" .) slice }}
+      <li class="ix-item{{ if .Params.featured }} is-featured{{ end }}" data-tags="{{ delimit $tags " " }}">
+        <article>
+          <h2 class="ix-title"><a href="{{ .RelPermalink }}">{{ .LinkTitle }}&#8288;<svg class="ix-go" aria-hidden="true"><use href="#s-arrow"/></svg></a></h2>
+          <p class="mono ix-meta">
+            {{- with .Date }}{{ if not .IsZero }}<time datetime="{{ .Format "2006-01-02" }}">{{ .Format "2 Jan 2006" }}</time> · {{ end }}{{ end -}}
+            {{ .ReadingTime }} min read
+            {{- if .Draft }} · <span class="ix-draft">draft</span>{{ end -}}
+          </p>
+          {{- if .Params.featured }}{{ with .Description }}
+          <p class="ix-dek">{{ . }}</p>
+          {{- end }}{{ end }}
+          {{- with $tags }}
+          <p class="chips ix-chips">{{ range . }}{{ partial "tagchip.html" . }}{{ end }}</p>
+          {{- end }}
+        </article>
+      </li>
+      {{- end }}
+    </ul>
+  </div>
+</main>
+</div>
+{{ end }}

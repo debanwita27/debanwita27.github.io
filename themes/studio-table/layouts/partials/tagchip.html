@@ -1,0 +1,7 @@
+{{- /* A tag chip. Context: the tag name. Colours come from data/tags.yaml (_default when unlisted).
+       There are no tag pages: a chip links to the posts index filtered to its tag, and on that
+       index js/index.js catches the click and filters in place. */ -}}
+{{- $t := lower . }}
+{{- $d := index site.Data.tags $t | default (index site.Data.tags "_default") }}
+{{- $style := printf "--chip-l:%s;--chip-d:%s;--chip-t:%s" $d.chip.light $d.chip.dark $d.ink.dark }}
+<a class="tagchip" href="{{ printf "posts/?tag=%s" (urlquery $t) | relURL }}" data-tag="{{ $t }}" style="{{ $style | safeCSS }}">{{ $t }}</a>

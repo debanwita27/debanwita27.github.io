@@ -1,0 +1,3 @@
+{{- /* Body class suffix: which token set (page-post, page-logs, ...) the page leans on. Single logs keep
+       their cold brew tone on a "post" bundle; the logs list stays on the shared index tone. */ -}}
+{{- return cond (and (eq .Section "logs") .IsPage) "logs" (partial "page-kind.html" .) -}}

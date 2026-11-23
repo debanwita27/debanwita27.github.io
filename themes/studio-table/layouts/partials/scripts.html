@@ -1,0 +1,8 @@
+{{- /* Small deferred scripts: the theme switch everywhere, plus one per page family. */ -}}
+{{- $kind := partial "page-kind.html" . }}
+{{- $js := slice (resources.Get "js/theme.js") }}
+{{- if eq $kind "home" }}{{ $js = $js | append (resources.Get "js/home.js") }}{{ end }}
+{{- if eq $kind "post" }}{{ $js = $js | append (resources.Get "js/post.js") }}{{ end }}
+{{- if eq $kind "index" }}{{ $js = $js | append (resources.Get "js/index.js") }}{{ end }}
+{{- $bundle := $js | resources.Concat (printf "js/%s.js" $kind) | minify | fingerprint }}
+<script src="{{ $bundle.RelPermalink }}" integrity="{{ $bundle.Data.Integrity }}" defer></script>

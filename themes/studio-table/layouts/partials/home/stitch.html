@@ -1,0 +1,30 @@
+{{- /* Contribution graph as cross-stitch, rendered at build time from data/contributions.yaml.
+       Each cross is two threads nudged by a fixed hash of its cell, so it looks hand-stitched
+       but never changes between builds. */ -}}
+{{- $step := 14 }}{{ $w := 9 }}{{ $off := 2.5 }}
+{{- $rows := site.Data.contributions.rows }}
+{{- $cols := len (index $rows 0) }}
+<section class="wrap gh" aria-labelledby="gh-h">
+  <div class="stitch" id="stitch">
+    <h2 id="gh-h">GitHub</h2>
+    <span class="desk" aria-hidden="true">days at the desk</span>
+    <div class="cat" id="cat" aria-hidden="true">{{ partial "sprite.html" (dict "name" "cat" "px" 4 "class" "open") }}{{ partial "sprite.html" (dict "name" "catBlink" "px" 4 "class" "shut") }}</div>
+    <div class="stitch-scroll" tabindex="0" role="region" aria-label="Contribution graph, scrolls sideways">
+      <svg class="grid" id="grid" viewBox="0 0 {{ mul $cols $step }} {{ mul (len $rows) $step }}" role="img" aria-label="GitHub contributions over the past year, stitched: a cross for each day with commits, darker for busier days">
+      {{- range $ri, $row := $rows }}{{ range $c, $ch := split $row "" }}
+        {{- $v := int $ch }}
+        {{- $x := add (mul $c $step) $off }}{{ $y := add (mul $ri $step) $off }}
+        {{- if eq $v 0 }}<circle cx="{{ add $x 4.5 }}" cy="{{ add $y 4.5 }}" r=".95" style="fill:var(--st0)"/>
+        {{- else }}
+          {{- $h := add (mul $c 37) (mul $ri 91) }}
+          {{- $j1 := printf "%.2f" (mul (sub (div (float (mod $h 23)) 23) 0.5) 1.1) }}
+          {{- $j2 := printf "%.2f" (mul (sub (div (float (mod (add $h 7) 19)) 19) 0.5) 1.1) }}
+          {{- $j3 := printf "%.2f" (mul (sub (div (float (mod (add $h 3) 17)) 17) 0.5) 1.1) }}
+          {{- $j4 := printf "%.2f" (mul (sub (div (float (mod (add $h 11) 13)) 13) 0.5) 1.1) -}}
+          <g class="st" style="--i:{{ $c }};stroke:var(--st{{ $v }})" stroke-width="{{ cond (gt $v 2) 2.7 2.2 }}" stroke-linecap="round"><path d="M{{ $x }} {{ $y }}L{{ add $x $w }} {{ add $y $w }}" transform="translate({{ $j1 }} {{ $j2 }})"/><path d="M{{ add $x $w }} {{ $y }}L{{ $x }} {{ add $y $w }}" transform="translate({{ $j3 }} {{ $j4 }})"/></g>
+        {{- end }}
+      {{- end }}{{ end }}
+      </svg>
+    </div>
+  </div>
+</section>

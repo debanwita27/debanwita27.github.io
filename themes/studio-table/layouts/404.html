@@ -1,0 +1,13 @@
+{{ define "main" }}
+<div class="page ground ground-sky">
+{{ partial "header.html" . }}
+<main class="wrap stub-main">
+  <article class="stub paper">
+    {{ partial "tape.html" (dict "name" "matcha-diagonal" "tilt" -2) }}
+    <h1 class="display page-title">lost</h1>
+    <p class="hand stub-hand">this page wandered off the table</p>
+    <p class="stub-body"><a href="{{ "/" | relURL }}">back to the desk</a></p>
+  </article>
+</main>
+</div>
+{{ end }}

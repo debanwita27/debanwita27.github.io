@@ -1,0 +1,6 @@
+{{- /* A page's own tags, lowercased, minus the generic ones (site.Params.genericTags, e.g. "post", "log")
+       that only say which section a page is in. Those never become chips or filter tabs. */ -}}
+{{- $generic := site.Params.genericTags | default (slice "post" "log") }}
+{{- $out := slice }}
+{{- range .Params.tags }}{{ $t := lower . }}{{ if and (not (in $generic $t)) (not (in $out $t)) }}{{ $out = $out | append $t }}{{ end }}{{ end }}
+{{- return $out -}}

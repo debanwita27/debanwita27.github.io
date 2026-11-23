@@ -1,0 +1,39 @@
+{{- /* Tapes for a page's taped figures, decided once per page from the source so neighbours never
+       match. Walks the img and tangent shortcodes in source order: tangents keep their fixed tape
+       (sticky strawberry-stripe, taped matcha-diagonal), and each img without tape= takes the next
+       name in data/tapes.yaml `rotation` that differs from the tape before and after it and is
+       never pink beside a pink. Returns one name per img shortcode ("none" for tape="none").
+       Context: the page. Call through partialCached keyed by the page. */ -}}
+{{- $d := site.Data.tapes }}
+{{- $pink := slice }}{{ range $d.tapes }}{{ if eq .family "pink" }}{{ $pink = $pink | append .name }}{{ end }}{{ end }}
+{{- $src := "" }}
+{{- with .File }}{{ $src = readFile (path.Join "content" .Path) }}{{ end }}
+{{- $seq := slice }}
+{{- range findRE `\{\{[<%]\s*(img|tangent)\s[^>]*` $src }}
+  {{- $attr := "" }}{{ with findRESubmatch `tape="([^"]*)"` . 1 }}{{ $attr = index (index . 0) 1 }}{{ end }}
+  {{- if findRE `^\{\{[<%]\s*img` . }}
+    {{- $seq = $seq | append (dict "img" true "name" $attr) }}
+  {{- else }}
+    {{- $style := "sticky" }}{{ with findRESubmatch `style="([^"]*)"` . 1 }}{{ $style = index (index . 0) 1 }}{{ end }}
+    {{- with index (dict "sticky" "strawberry-stripe" "taped" "matcha-diagonal") $style }}{{ $seq = $seq | append (dict "img" false "name" .) }}{{ end }}
+  {{- end }}
+{{- end }}
+{{- $rot := $d.rotation }}{{ $n := len $rot }}
+{{- $r := 0 }}{{ $prev := "" }}{{ $out := slice }}
+{{- range $i, $t := $seq }}
+  {{- if not $t.img }}{{ $prev = $t.name }}{{ continue }}{{ end }}
+  {{- if $t.name }}{{ $out = $out | append $t.name }}{{ if ne $t.name "none" }}{{ $prev = $t.name }}{{ end }}{{ continue }}{{ end }}
+  {{- $next := "" }}
+  {{- if lt (add $i 1) (len $seq) }}{{ $nx := index $seq (add $i 1) }}{{ if not $nx.img }}{{ $next = $nx.name }}{{ end }}{{ end }}
+  {{- $pick := "" }}
+  {{- range $k := seq 0 (sub $n 1) }}
+    {{- if not $pick }}
+      {{- $c := index $rot (mod (add $r $k) $n) }}
+      {{- $clash := or (eq $c $prev) (eq $c $next) (and (in $pink $c) (or (in $pink $prev) (in $pink $next))) }}
+      {{- if not $clash }}{{ $pick = $c }}{{ $r = add $r $k 1 }}{{ end }}
+    {{- end }}
+  {{- end }}
+  {{- if not $pick }}{{ $pick = index $rot (mod $r $n) }}{{ $r = add $r 1 }}{{ end }}
+  {{- $out = $out | append $pick }}{{ $prev = $pick }}
+{{- end }}
+{{- return $out }}

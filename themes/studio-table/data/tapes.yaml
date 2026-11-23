@@ -1,0 +1,35 @@
+# Washi tapes: the single list of names for partials/tape.html. Each name has one .tape--NAME
+# rule in assets/css/base.css, coloured by the --t* tokens in tokens.css (both themes).
+# family: pink tapes are kept to about a third of a page and never side by side.
+tapes:
+  - name: matcha-diagonal
+    family: green
+    note: matcha and cream diagonal stripes
+  - name: strawberry-stripe
+    family: pink
+    note: strawberry and milk vertical stripes, the original tape
+  - name: sky-check
+    family: blue
+    note: periwinkle and cloud checkerboard
+  - name: peony-dots
+    family: pink
+    note: peony polka dots on blush
+  - name: lavender-plain
+    family: lavender
+    note: plain lavender, no pattern
+  - name: peach-pinstripe
+    family: pink
+    note: see-through peach with hand-wobbled matcha pinstripes
+
+# Order for repeated tapes ("index" N picks rotation[N mod len]): pinks sit every third slot,
+# so no two pinks touch, even across the wrap.
+rotation:
+  - matcha-diagonal
+  - strawberry-stripe
+  - sky-check
+  - lavender-plain
+  - peony-dots
+  - matcha-diagonal
+  - sky-check
+  - peach-pinstripe
+  - lavender-plain

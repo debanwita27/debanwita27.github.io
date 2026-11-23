@@ -1,0 +1,86 @@
+{{- /* Currently-reading card: a paper card holding a little shelf. The current books are a real
+       list of links; plants, cat, stack and back-row filler are decoration (aria-hidden).
+       Data: data/reading.yaml. Colour fields name a token in tokens.css (book-N / spine-N). */ -}}
+{{- with site.Data.reading }}
+{{- $books := first 2 (.books | default slice) }}
+{{- $past := .past | default slice }}
+{{- $tok := "^[a-z][a-z0-9-]*$" }}
+{{- /* back row: width, height, token slot, edge detail (a: twin rules up top, b: low band, c: label patch) */}}
+{{- $slots := slice
+  (dict "w" 18 "h" 118 "b" "a") (dict "w" 24 "h" 132 "b" "") (dict "w" 15 "h" 110 "b" "b")
+  (dict "w" 22 "h" 128 "b" "c") (dict "w" 17 "h" 138 "b" "a") (dict "w" 25 "h" 114 "b" "")
+  (dict "w" 16 "h" 124 "b" "b") (dict "w" 21 "h" 106 "b" "c") }}
+<section class="shelf" aria-labelledby="shelf-h">
+  {{ partial "tape.html" (dict "name" "matcha-diagonal" "tilt" -2 "class" "sh-tape") }}
+  <h3 id="shelf-h">{{ .heading | default "Currently reading" }}</h3>
+  <div class="sh-scene">
+    {{- /* Easter egg: clicking the plant swaps it for the next of eight (home.js). It stays
+           aria-hidden decoration with no cursor, focus or hint on purpose: a purely visual
+           delight, so it has no keyboard path. Only the first plant renders unhidden. */}}
+    <div class="sh-plants" aria-hidden="true">
+      <svg class="sh-pl-defs" width="0" height="0" focusable="false"><defs>
+        <filter id="pl-wc1" x="-70%" y="-70%" width="240%" height="240%"><feTurbulence type="fractalNoise" baseFrequency=".04" numOctaves="3" seed="3"/><feDisplacementMap in="SourceGraphic" scale="10"/><feGaussianBlur stdDeviation="5"/></filter>
+        <filter id="pl-wc2" x="-70%" y="-70%" width="240%" height="240%"><feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="3" seed="11"/><feDisplacementMap in="SourceGraphic" scale="12"/><feGaussianBlur stdDeviation="4.5"/></filter>
+        <filter id="pl-wc3" x="-70%" y="-70%" width="240%" height="240%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="4" seed="27"/><feDisplacementMap in="SourceGraphic" scale="9"/><feGaussianBlur stdDeviation="6"/></filter>
+        <filter id="pl-bloom" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="3.2"/></filter>
+        <pattern id="pl-ging" width="8" height="8" patternUnits="userSpaceOnUse"><rect class="p-ging-a" width="4" height="8"/><rect class="p-ging-a" width="8" height="4"/></pattern>
+      </defs></svg>
+      {{- range $i, $p := slice "pothos" "cactus" "bud-vase" "brush-jar" "monstera" "bonsai" "mug-sprout" "spore-lantern" }}
+      {{ partial (printf "home/plants/%s.html" $p) (dict "hidden" (gt $i 0)) }}
+      {{- end }}
+    </div>
+    {{- if $past }}
+    <ul class="sh-back" aria-label="Past reads">
+    {{- else }}
+    <div class="sh-back" aria-hidden="true">
+    {{- end }}
+      {{- range $i, $s := $slots }}
+      {{- $p := false }}{{ if lt $i (len $past) }}{{ $p = index $past $i }}{{ end }}
+      {{- $c := printf "spine-%d" (add $i 1) }}
+      {{- with $p }}{{ with .colour }}{{ if findRE $tok . }}{{ $c = . }}{{ end }}{{ end }}{{ end }}
+      {{- $st := printf "--c:var(--%s);width:%dpx;height:%dpx" $c $s.w $s.h | safeCSS }}
+      {{- $cls := cond (ne $s.b "") (printf "sp bd-%s" $s.b) "sp" }}
+      {{- if $p }}
+      <li class="{{ $cls }} past" style="{{ $st }}"><span class="sr-only">{{ $p.title }}{{ with $p.author }} by {{ . }}{{ end }}</span></li>
+      {{- else if $past }}
+      <li class="{{ $cls }} fill" style="{{ $st }}" aria-hidden="true"></li>
+      {{- else }}
+      <i class="{{ $cls }} fill" style="{{ $st }}"></i>
+      {{- end }}
+      {{- end }}
+    {{- if $past }}</ul>{{ else }}</div>{{ end }}
+    <ul class="sh-now">
+      {{- range $i, $b := $books }}
+      {{- $c := printf "book-%d" (add $i 1) }}
+      {{- with .colour }}{{ if findRE $tok . }}{{ $c = . }}{{ end }}{{ end }}
+      <li>
+        <a class="sh-bk" href="{{ .url }}" style="{{ printf "--c:var(--%s);--c-ink:var(--%s-ink)" $c $c | safeCSS }}">
+          <span class="rib" aria-hidden="true"></span>
+          <span class="face" aria-hidden="true"><b>{{ .spine | default .title }}</b><small>{{ .short | default .author }}</small></span>
+          <span class="slip"><strong>{{ .title }}</strong><span class="lbl">{{ .author }}</span>{{ with .page }}<em class="lbl">Bookmark p.{{ . }}</em>{{ end }}</span>
+        </a>
+      </li>
+      {{- end }}
+    </ul>
+    <div class="sh-lie" aria-hidden="true">
+      <i></i><i></i>
+      {{- /* Easter egg: clicking the cat wakes it grumpy for a moment (home.js): shake, anger mark in
+             place of the zz, half-open eyes. Aria-hidden decoration with no cursor, focus or hint
+             on purpose, so it has no keyboard path, as with the plant. */}}
+      <span class="sh-cat">{{ partial "sprite.html" (dict "name" "catNap" "px" 3 "class" "cat-nap") }}{{ partial "sprite.html" (dict "name" "catGrumpy" "px" 3 "class" "cat-grumpy") }}</span>
+      <span class="sh-z"><span>z</span><span>z</span></span>
+      <svg class="sh-anger" viewBox="0 0 20 20" width="24" height="24" focusable="false" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2.4 7.3C6.5 7.7 7.5 6.7 7.7 2.4"/><path d="M12.5 2.6C12.6 6.7 13.5 7.7 17.6 7.4"/><path d="M17.5 12.7C13.5 12.3 12.6 13.4 12.3 17.6"/><path d="M7.6 17.4C7.5 13.5 6.5 12.5 2.5 12.6"/></g></svg>
+    </div>
+    <span class="sh-ledge" aria-hidden="true"></span>
+  </div>
+  {{- /* touch screens have no hover slip, so the full titles are written out here. The list
+         above already carries them for screen readers, so this copy is hidden from them. */}}
+  {{- $parts := slice }}
+  {{- range $books }}{{ $parts = $parts | append (printf "<a href=\"%s\" tabindex=\"-1\"><i>%s</i></a> by %s" .url (htmlEscape .title) (htmlEscape .author)) }}{{ end }}
+  <p class="shelf-cap" aria-hidden="true">{{ delimit $parts ", " " and " | safeHTML }}</p>
+  <div class="sh-foot">
+    {{ with .note }}<p class="hand">{{ . }}</p>{{ end }}
+    {{ if $past }}<p class="lbl">Back row: past reads</p>{{ end }}
+  </div>
+</section>
+{{- end }}

@@ -1,0 +1,39 @@
+# "Currently reading" shelf on the home page.
+#
+# books: the current reads, drawn as the two tilted spines in front (the layout holds two;
+#        extra entries are ignored).
+#   title   full title, shown on the hover slip and read out by screen readers
+#   author  full author name
+#   url     where the spine links (Goodreads)
+#   spine   short title printed up the spine; keep it to ~14 characters
+#   short   author as printed on the spine (defaults to author)
+#   colour  spine colour token from tokens.css: book-1 or book-2
+#   page    optional bookmark page, shown on the slip as "Bookmark p.142"
+#
+# past:  optional past reads for the back row, newest first. Each needs title, author and
+#        colour (a back-row token, spine-1 to spine-8). While the list is empty the back row is
+#        plain decorative spines with no titles.
+#
+# note:  the handwritten one-liner under the shelf.
+heading: Currently reading
+books:
+  - title: The Little Sparrow Murders
+    author: Seishi Yokomizo
+    url: https://www.goodreads.com/book/show/184156364-the-little-sparrow-murders
+    spine: Little Sparrow
+    short: Yokomizo
+    colour: book-1
+    # page: 142
+  - title: Blood Over Bright Haven
+    author: M.L. Wang
+    url: https://www.goodreads.com/book/show/208430658-blood-over-bright-haven
+    spine: Bright Haven
+    short: M.L. Wang
+    colour: book-2
+    # page: 318
+past: []
+# past:
+#   - title: Piranesi
+#     author: Susanna Clarke
+#     colour: spine-3
+note: One murder, one magic system, both late into the night.
