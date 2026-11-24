@@ -1,0 +1,53 @@
+{{- /* {{< gallery >}} {{< img ... >}} ... {{< /gallery >}}
+       Arranges itself by count and shape, like a table of pinned paintings:
+       1: one capped figure; 2: one row; 3: a portrait leads beside the other two stacked;
+       4: a wide (>= 1.7) leads in its own row; 5+: justified rows of about 3 units of aspect. */ -}}
+{{- $_ := .Inner }}
+{{- $items := .Scratch.Get "items" | default slice }}
+{{- $n := len $items }}
+{{- $gid := printf "g%d" .Ordinal }}
+{{- $capH := 440 }}{{ $gap := 22 }}
+{{- $rows := slice }}
+{{- $idx := seq 0 (sub $n 1) }}
+{{- $hero := -1 }}
+{{- if eq $n 3 }}{{ range $i, $it := $items }}{{ if and (lt $hero 0) (lt $it.img.ar 1.0) }}{{ $hero = $i }}{{ end }}{{ end }}{{ end }}
+{{- if eq $n 4 }}
+  {{- $wide := -1 }}{{ range $i, $it := $items }}{{ if and (lt $wide 0) (ge $it.img.ar 1.7) }}{{ $wide = $i }}{{ end }}{{ end }}
+  {{- if ge $wide 0 }}
+    {{- $rest := slice }}{{ range $idx }}{{ if ne . $wide }}{{ $rest = $rest | append . }}{{ end }}{{ end }}
+    {{- $rows = slice (slice $wide) $rest }}
+  {{- else }}{{ $rows = slice (slice 0 1) (slice 2 3) }}{{ end }}
+{{- else if gt $n 4 }}
+  {{- $cur := slice }}{{ $sum := 0.0 }}
+  {{- range $idx }}{{ $cur = $cur | append . }}{{ $sum = add $sum (index $items .).img.ar }}{{ if ge $sum 3.0 }}{{ $rows = $rows | append (slice $cur) }}{{ $cur = slice }}{{ $sum = 0.0 }}{{ end }}{{ end }}
+  {{- if $cur }}{{ $rows = $rows | append (slice $cur) }}{{ end }}
+{{- else if gt $n 0 }}{{ $rows = slice $idx }}{{ end }}
+{{- $k := 0 }}
+<div class="gallery" data-n="{{ $n }}">
+{{- if ge $hero 0 }}
+  {{- $rest := slice }}{{ range $idx }}{{ if ne . $hero }}{{ $rest = $rest | append . }}{{ end }}{{ end }}
+  {{- $inv := 0.0 }}{{ range $rest }}{{ $inv = add $inv (div 1.0 (index $items .).img.ar) }}{{ end }}
+  {{- $colGrow := div 1.0 $inv }}{{ $h := index $items $hero }}
+  {{- $max := int (add (mul $capH (add $h.img.ar $colGrow)) $gap) }}
+  <div class="g-row" style="max-width:{{ $max }}px">
+    {{- partial "figure.html" (merge $h (dict "class" "hero" "style" (printf "flex-grow:%.4f;--r:-1.2deg" $h.img.ar) "sizes" "(max-width: 560px) 100vw, 360px" "group" $gid)) }}
+    <div class="g-col" style="flex-grow:{{ printf "%.4f" $colGrow }}">
+      {{- range $j, $i := $rest }}{{ $it := index $items $i }}
+      {{- partial "figure.html" (merge $it (dict "style" (printf "--r:%.1fdeg" (cond (eq $j 0) 1.4 -0.9)) "sizes" "(max-width: 560px) 50vw, 300px" "group" $gid)) }}
+      {{- end }}
+    </div>
+  </div>
+{{- else }}
+  {{- range $rows }}
+    {{- $sum := 0.0 }}{{ range . }}{{ $sum = add $sum (index $items .).img.ar }}{{ end }}
+    {{- $max := int (add (mul $capH $sum) (mul $gap (sub (len .) 1))) }}
+  <div class="g-row" style="max-width:{{ $max }}px">
+    {{- range . }}{{ $it := index $items . }}
+      {{- $rot := index (slice -1.6 1.2 -0.6 1.8 -1.1) (mod $k 5) }}
+      {{- partial "figure.html" (merge $it (dict "style" (printf "flex-grow:%.4f;--r:%.1fdeg" $it.img.ar $rot) "sizes" (printf "(max-width: 560px) 50vw, %dpx" (int (div 740 (len $rows)))) "group" $gid)) }}
+      {{- $k = add $k 1 }}
+    {{- end }}
+  </div>
+  {{- end }}
+{{- end }}
+</div>

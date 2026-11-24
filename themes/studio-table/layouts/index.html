@@ -1,0 +1,64 @@
+{{ define "main" }}
+{{- $a := site.Params.author }}
+{{ partial "header.html" . }}
+<main>
+  <section class="wrap hero" aria-labelledby="hello">
+    <div class="hero-copy">
+      <div class="blk blk-a">
+        <h1 class="hello" id="hello">Hi, I'm <em>{{ $a.firstName | default $a.name }}</em>.</h1>
+        <p class="bio">{{ $a.description }}</p>
+      </div>
+      <div class="blk blk-b">
+        <p class="role">
+          {{- with $a.role }}{{ . }} {{ end }}
+          {{- with $a.employer }}<a href="{{ $a.employerURL }}">@{{ . }}</a>. {{ end }}
+          {{- with site.Params.resume }}Here's my <a href="{{ . }}">resume</a>.{{ end -}}
+        </p>
+        <ul class="washi" aria-label="Elsewhere">
+          {{- /* each link is a strip of tape; the social links take the patterns in this order, so no
+                 two pinks touch, and the resume is always the plain one */}}
+          {{- $wt := slice "strawberry-stripe" "matcha-diagonal" "sky-check" "peony-dots" }}
+          {{- range $i, $s := site.Params.socialIcons }}
+          <li><a class="tape--{{ index $wt (mod $i (len $wt)) }}" href="{{ $s.url }}">{{ $s.label | default $s.name }}</a></li>
+          {{- end }}
+          {{- with site.Params.resume }}
+          <li><a class="tape--lavender-plain" href="{{ . }}">resume.pdf</a></li>
+          {{- end }}
+        </ul>
+      </div>
+    </div>
+    {{ partial "home/reader.html" . }}
+  </section>
+
+  <div class="rise">
+    {{ partial "home/breather.html" . }}
+
+    <section class="wrap about" aria-labelledby="about-h">
+      <div class="about-left">
+        {{ partial "home/shelf.html" . }}
+        {{ partial "home/projects.html" . }}
+      </div>
+      <article class="sheet" id="sheet">
+        {{ partial "tape.html" (dict "name" "sky-check" "tilt" -2) }}
+        <h2 id="about-h">{{ .Params.aboutTitle | default "About, the long version" }}</h2>
+        {{ with .Params.updated }}<span class="meta">Updated {{ . }}</span>{{ end }}
+        {{ .Content }}
+        {{ with .Params.ps }}
+        <div class="ps">
+          <svg viewBox="0 0 200 200" aria-hidden="true">
+            <defs><path id="jarArc" d="M28 118A72 72 0 1 1 172 118"/></defs>
+            <ellipse class="wc-rose" cx="100" cy="122" rx="58" ry="44" opacity=".55" filter="url(#glowblur)"/>
+            <ellipse class="wc-leaf" cx="124" cy="92" rx="30" ry="24" opacity=".5" filter="url(#glowblur)"/>
+            <use href="#s-brush" x="45" y="52" width="110" height="110"/>
+            {{ with $.Params.psArc }}<text class="arc"><textPath href="#jarArc" startOffset="50%" text-anchor="middle">{{ . }}</textPath></text>{{ end }}
+          </svg>
+          <span class="hand">{{ . }}</span>
+        </div>
+        {{ end }}
+      </article>
+    </section>
+
+    {{ partial "home/stitch.html" . }}
+  </div>
+</main>
+{{ end }}

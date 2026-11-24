@@ -1,0 +1,3 @@
+{{- /* Ground for the plain pages: single logs lean cold brew on the sage check; the posts and logs
+       indexes and everything else share the tone-on-tone index grid. */ -}}
+{{- return cond (and (eq .Section "logs") .IsPage) "ground-logs" "ground-index" -}}

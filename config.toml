@@ -1,7 +1,7 @@
 title = "Debanwita Mahato"
 baseURL = 'https://debanwita.me/'
 languageCode = 'en-us'
-theme = "hugo-blog-awesome"
+theme = "studio-table"
 
 # To enable Google Analytics 4 (gtag.js) provide G-MEASUREMENT_ID below.
 # To disable  Google Analytics, simply leave the field empty or remove the next line
@@ -11,6 +11,9 @@ googleAnalytics = '' # G-MEASUREMENT_ID
 # Enable emojis globally
 enableEmoji = true
 
+# No tag pages: tags in front matter only drive the in-page filter on /posts/ (?tag=<name>).
+disableKinds = ["taxonomy", "term"]
+
 # set markup.highlight.noClasses=false to enable code highlight
 [markup]
   [markup.highlight]
@@ -19,33 +22,30 @@ enableEmoji = true
     unsafe = true
 
 [menu]
-  [[menu.main]] 
-    # The page reference (pageRef) is useful for menu highlighting
-    # When pageRef is set, setting `url` is optional; it will be used as a fallback if the page is not found.
+  # About lives on the home page, so it has no menu entry of its own.
+  [[menu.main]]
     pageRef="/"
-    name = 'Home'
+    name = 'home'
     url = '/'
     weight = 10
   [[menu.main]]
     pageRef="posts"
-    name = 'Posts'
+    name = 'posts'
     url = '/posts/'
     weight = 20
   [[menu.main]]
-    pageRef="about"
-    name = 'About'
-    url = '/about/'
-    weight = 30
-    [[menu.main]]
     pageRef="logs"
-    name = 'Logs'
+    name = 'logs'
     url = '/logs/'
-    weight = 40
+    weight = 30
 
 [params]
   sitename = "Debanwita Mahato"
   defaultColor = "dark" # set default color mode: dark or light
-  description = "Minimal Hugo blog theme with light and dark mode support"
+  description = "Debanwita Mahato: design engineer, painter, reader. Posts, logs and a few projects."
+  themeSwitcher = "pill" # studio-table header switcher: "pill" or "pour"
+  genericTags = ["post", "log"] # tags that only name a section; never shown as chips or filter tabs
+  resume = "https://drive.google.com/file/d/1smgGhZna8SLpgL-3eDnq7j3EA1eiTI2H/view?usp=sharing"
 
 [params.author]
   avatar = "avatar.jpg" # put the file in assets folder; also ensure that image has same height and width
@@ -53,18 +53,26 @@ enableEmoji = true
   intro = "Debanwita Mahato"
   name = "Debanwita Mahato"
   description = "CS grad trying to get a foothold in UI/UX Design and Web Development. I dabble in generative coding for the kicks."
+  firstName = "Debanwita"
+  role = "Design Engineer 2"
+  employer = "Headout"
+  employerURL = "https://headout.com"
 [[params.socialIcons]]
 name = "github"
+label = "github / debanwita27"
 url = "https://github.com/debanwita27"
 
 [[params.socialIcons]]
 name = "linkedin"
+label = "linkedin"
 url = "http://www.linkedin.com/in/debanwita-mahato-8779431b8/"
 
 [[params.socialIcons]]
 name = "leetcode"
+label = "leetcode"
 url = "https://www.leetcode.com/dm2711/"
 
 [[params.socialIcons]]
 name = "email"
+label = "email"
 url = "mailto:debanwita27@gmail.com"

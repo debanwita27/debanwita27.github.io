@@ -1,0 +1,31 @@
+/* Expanding pill: two segments in a fixed-width grid. Only the column sizes swap, so the
+   control never changes its outer width and the nav beside it never shifts.
+   Both columns stay in px: grid tracks only interpolate between like units. */
+.theme-pill{--sw-closed:36px;--sw-open:184px;--sw-ease:cubic-bezier(.22,1,.36,1);
+  display:grid;gap:6px;grid-template-columns:var(--sw-open) var(--sw-closed);
+  transition:grid-template-columns .42s var(--sw-ease)}
+.theme-pill:has(> .seg:last-child[aria-checked="true"]){grid-template-columns:var(--sw-closed) var(--sw-open)}
+.seg{appearance:none;cursor:pointer;display:flex;align-items:center;min-width:0;height:36px;padding:2px;border-radius:999px;overflow:hidden;
+  border:1px solid var(--sw-edge);background:var(--sw-track);color:var(--sw-off-ink);font:inherit;
+  transition:background-color .3s ease, border-color .3s ease, color .3s ease}
+.seg .ic{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;flex:none;transition:background-color .3s ease, color .3s ease}
+.seg .drink{width:22px;height:22px;opacity:.62;transition:opacity .3s ease}
+.seg .nm{font-family:var(--f-body);font-weight:500;font-size:var(--fs-ui-sm);letter-spacing:.01em;line-height:1;white-space:nowrap;
+  padding-left:8px;opacity:0;transition:opacity .28s ease}
+.seg[aria-checked="true"]{color:var(--ink)}
+.seg[aria-checked="true"] .ic{background:var(--sw-on);color:var(--sw-on-ink)}
+.seg[aria-checked="true"] .drink{opacity:1}
+/* the outgoing name stays visible while its column clips it shut; the incoming one fades in
+   as its column opens, so neither pill ever sits wide and empty */
+.seg[aria-checked="true"] .nm{opacity:1;transition:opacity .26s ease .1s}
+.seg:not([aria-checked="true"]):hover .drink{opacity:.95}
+.seg:focus-visible{outline-offset:3px;border-radius:999px}
+
+/* phone: logo, three nav words and the switcher share one row, so both segments stay icon-only */
+@media (max-width: 480px){
+  .theme-pill,.theme-pill:has(> .seg:last-child[aria-checked="true"]){grid-template-columns:var(--sw-closed) var(--sw-closed);gap:4px}
+  .seg .nm{display:none}
+}
+@media (prefers-reduced-motion: reduce){
+  .theme-pill,.seg,.seg *{transition:none!important}
+}

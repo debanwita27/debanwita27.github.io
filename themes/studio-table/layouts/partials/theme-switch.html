@@ -1,0 +1,10 @@
+{{- /* params.themeSwitcher picks the header control: "pill" (default) or "pour".
+       JS keeps aria-checked / the pour label in sync with <html data-theme>. */ -}}
+{{- if eq site.Params.themeSwitcher "pour" }}
+<button class="theme theme-pour" type="button" id="themePour" aria-label="Switch colour theme">{{ partial "drink.html" (dict "id" "gl-b" "which" "both") }}<span class="lbl" aria-hidden="true">strawberry matcha</span></button>
+{{- else }}
+<div class="theme theme-pill" role="radiogroup" aria-label="Colour theme" id="themeSwitch">
+  <button class="seg" type="button" role="radio" aria-checked="true" data-set-theme="strawberry-matcha"><span class="ic">{{ partial "drink.html" (dict "id" "gl-a-sm" "which" "sm") }}</span><span class="nm">strawberry matcha</span></button>
+  <button class="seg" type="button" role="radio" aria-checked="false" tabindex="-1" data-set-theme="cranberry-cold-brew"><span class="ic">{{ partial "drink.html" (dict "id" "gl-a-cc" "which" "cc") }}</span><span class="nm">cranberry cold brew</span></button>
+</div>
+{{- end }}

@@ -1,0 +1,26 @@
+{{- /* {{< img src="sky.jpg" alt="..." caption="..." treatment="taped|breakout|inset-left|inset-right" >}}
+       Optional: ratio="4/3" (remote images), width/height (remote images), tape="<name from data/tapes.yaml>|none"
+       (default: picked by partials/tape-plan.html so neighbouring tapes differ).
+       Inside {{< gallery >}} it only registers itself; the gallery lays the figures out. */ -}}
+{{- $alt := .Get "alt" }}
+{{- if not $alt }}{{ warnf "img: %q in %s has no alt text" (.Get "src") .Page.File.Path }}{{ end }}
+{{- $img := partial "img-data.html" (dict "page" .Page "src" (.Get "src") "ratio" (.Get "ratio") "width" (.Get "width") "height" (.Get "height")) }}
+{{- /* this img's place among the page's img shortcodes picks its tape from the page's tape plan */}}
+{{- /* nested shortcodes report no source position, so a gallery child counts from its gallery */}}
+{{- $off := .Position.Offset }}{{ $n := 0 }}
+{{- if .Parent }}{{ $off = .Parent.Position.Offset }}{{ $n = .Ordinal }}{{ end }}
+{{- with .Page.File }}{{ $n = add $n (len (findRE `\{\{[<%]\s*img\s` (substr (readFile (path.Join "content" .Path)) 0 $off))) }}{{ end }}
+{{- $plan := partialCached "tape-plan.html" .Page .Page.RelPermalink }}
+{{- $tape := .Get "tape" | default (cond (lt $n (len $plan)) (index $plan $n) "") }}
+{{- $item := dict "img" $img "alt" $alt "caption" (.Get "caption") "tape" $tape "tapeIndex" $n }}
+{{- if and .Parent (eq .Parent.Name "gallery") }}
+  {{- .Parent.Scratch.Add "items" (slice $item) }}
+{{- else }}
+  {{- $t := .Get "treatment" | default "taped" }}
+  {{- if not (in (slice "taped" "breakout" "inset-left" "inset-right") $t) }}{{ errorf "img: unknown treatment %q in %s" $t .Page.File.Path }}{{ end }}
+  {{- $style := "" }}{{ $sizes := "(max-width: 800px) 100vw, 740px" }}
+  {{- if eq $t "taped" }}{{ $style = printf "max-width:%dpx" (int (mul 440 $img.ar)) }}{{ end }}
+  {{- if eq $t "breakout" }}{{ $sizes = "(max-width: 1000px) 100vw, 900px" }}{{ end }}
+  {{- if hasPrefix $t "inset" }}{{ $sizes = "(max-width: 560px) 72vw, 250px" }}{{ end }}
+  {{- partial "figure.html" (merge $item (dict "class" (printf "fig-%s" $t) "style" $style "sizes" $sizes "group" "post")) }}
+{{- end -}}

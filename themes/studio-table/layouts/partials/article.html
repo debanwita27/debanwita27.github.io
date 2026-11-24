@@ -1,0 +1,45 @@
+{{- /* Tangent asides arrive inline (see shortcodes/tangent.html). Move each one to just after
+       the </p> that holds its highlight, so the HTML reads paragraph, then its note. */ -}}
+{{- $re := `(?s)<tn-move>.*?</tn-move>` }}
+{{- $parts := split .Content "</p>" }}
+{{- $last := sub (len $parts) 1 }}
+{{- /* Footnote numbers are filled in here too, in reading order: the marker and its note's label. */ -}}
+{{- $body := "" }}{{ $n := 0 }}
+{{- $slot := `<span class="tn-n"></span>` }}
+{{- range $i, $part := $parts }}
+  {{- $clean := replaceRE $re "" $part }}
+  {{- $asides := "" }}
+  {{- range findRE $re $part }}
+    {{- $n = add $n 1 }}{{ $num := printf `<span class="tn-n">%d</span>` $n }}
+    {{- $clean = replaceRE $slot $num $clean 1 }}
+    {{- $asides = add $asides (replaceRE $slot $num (replaceRE `</?tn-move>` "" .) 1) }}
+  {{- end }}
+  {{- $body = add $body $clean }}
+  {{- if lt $i $last }}{{ $body = add $body "</p>" }}{{ end }}
+  {{- $body = add $body $asides }}
+{{- end }}
+{{- /* The same article for posts and logs; only the ground differs. */ -}}
+<div class="page ground {{ cond (eq .Section "logs") "ground-logs" "ground-posts" }}">
+{{ partial "header.html" . }}
+<main class="wrap post-main">
+  <article class="sheet paper" style="{{ partial "tag-ink.html" . | safeCSS }}"{{ if in $body "class=\"tn " }} data-tangents{{ end }}>
+    {{- $logs := eq .Section "logs" }}
+    {{ partial "tape.html" (dict "name" (cond $logs "lavender-plain" "matcha-diagonal") "pos" "top-left" "tilt" -6) }}
+    {{- partial "tape.html" (dict "name" (cond $logs "matcha-diagonal" "sky-check") "pos" "top-right" "tilt" 5) }}
+    <header class="post-head">
+      {{ with partial "tags-of.html" . }}<span class="chips">{{ range . }}{{ partial "tagchip.html" . }}{{ end }}</span>{{ end }}
+      {{- if .Params.sample }}<span class="sample-tag">sample</span>{{ end }}
+      <p class="meta mono">{{ with .Date }}<time datetime="{{ .Format "2006-01-02" }}">{{ .Format "2 Jan 2006" }}</time> &middot; {{ end }}{{ .ReadingTime }} min read</p>
+      <h1 class="display">{{ .Title }}</h1>
+      {{- /* skip the dek when it only repeats the title; .Description still feeds the meta tags */ -}}
+      {{ with .Description }}{{ if not (in (lower $.Title) (lower .)) }}<p class="dek">{{ . }}</p>{{ end }}{{ end }}
+      {{ with .Params.kicker }}<p class="hand kicker">{{ . }}</p>{{ end }}
+    </header>
+    <div class="wobble" aria-hidden="true"></div>
+    <div class="post-body">
+      {{ $body | safeHTML }}
+    </div>
+    <a class="back" href="{{ printf "%s/" .Section | relURL }}"><svg aria-hidden="true"><use href="#s-arrow"/></svg>all {{ .Section }}</a>
+  </article>
+</main>
+</div>

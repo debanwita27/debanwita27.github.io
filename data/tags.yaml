@@ -1,0 +1,15 @@
+# One place for tag colours. Every chip, filter tab and post accent reads from here.
+#   chip:  the tag colour, light / dark theme. It is the filter-tab lip and the base of the chip's
+#          tinted fill (base.css mixes it into the paper; light chips also derive their text from it).
+#   ink:   the tag colour as text or a line on paper, light / dark theme. ink.dark is the dark chip label.
+# Dark chips clear 3:1 against an idle filter tab; dark inks clear 4.5:1 on the chip's hover fill.
+# Recheck both, and the spread between tags, when adding or changing one. Tags not listed use _default.
+_default: {family: cocoa,      chip: {light: "#6B403B", dark: "#93604F"}, ink: {light: "#6B403B", dark: "#E3B9A8"}}
+tech:       {family: sage,       chip: {light: "#405341", dark: "#7A735B"}, ink: {light: "#405341", dark: "#BAB299"}}
+personal:   {family: terracotta, chip: {light: "#945C4D", dark: "#AF5E33"}, ink: {light: "#945C4D", dark: "#E3A486"}}
+post:       {family: cocoa,      chip: {light: "#6B403B", dark: "#93604F"}, ink: {light: "#6B403B", dark: "#E3B9A8"}}
+arts:       {family: rose,       chip: {light: "#9B5666", dark: "#A17F81"}, ink: {light: "#9B5666", dark: "#DAB6B8"}}
+history:    {family: guave,      chip: {light: "#5C5938", dark: "#AC9955"}, ink: {light: "#5C5938", dark: "#DECC8B"}}
+literature: {family: nude,       chip: {light: "#705C64", dark: "#C0ADA8"}, ink: {light: "#705C64", dark: "#ECD8D2"}}
+writing:    {family: sand,       chip: {light: "#7A5A1E", dark: "#D1BA96"}, ink: {light: "#7A5A1E", dark: "#F7E0BB"}}
+log:        {family: ochre,      chip: {light: "#7A5A1E", dark: "#8A6629"}, ink: {light: "#7A5A1E", dark: "#E2C08A"}}

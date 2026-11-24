@@ -1,0 +1,27 @@
+{{- /* One washi tape, decoration only.
+         {{ partial "tape.html" (dict "name" "matcha-diagonal" "pos" "top-left" "tilt" -3) }}
+         {{ partial "tape.html" (dict "index" 4) }}
+       name:  a pattern from data/tapes.yaml. Omit it and pass "index" N to take rotation[N mod len]
+              (stable across builds, pinks spaced out). Unknown names warn and fall back to the first.
+       pos:   top (default) | top-left | top-right | corner-left | corner-right
+       tilt:  degrees; with "index" and no tilt, a small tilt is picked from the same index
+       class: extra classes for a context's own sizing (e.g. sh-tape) */ -}}
+{{- $d := site.Data.tapes }}
+{{- $names := slice }}{{ range $d.tapes }}{{ $names = $names | append .name }}{{ end }}
+{{- $name := .name | default "" }}
+{{- $tilt := .tilt }}
+{{- if isset . "index" }}
+  {{- $i := int .index }}
+  {{- if not $name }}{{ $name = index $d.rotation (mod $i (len $d.rotation)) }}{{ end }}
+  {{- if not (isset . "tilt") }}{{ $tilt = index (slice -3 2.5 -1.5 3.5 -4 1.5 -2.5) (mod $i 7) }}{{ end }}
+{{- end }}
+{{- if not (in $names $name) }}
+  {{- warnf "tape: unknown tape name %q, using %q" $name (index $names 0) }}
+  {{- $name = index $names 0 }}
+{{- end }}
+{{- $pos := .pos | default "top" }}
+{{- if not (in (slice "top" "top-left" "top-right" "corner-left" "corner-right") $pos) }}
+  {{- warnf "tape: unknown pos %q, using top" $pos }}{{ $pos = "top" }}
+{{- end -}}
+<span class="tape tape--{{ $name }}{{ if ne $pos "top" }} tape--at-{{ $pos }}{{ end }}{{ with .class }} {{ . }}{{ end }}"{{ if ne $tilt nil }} style="--tr:{{ $tilt }}deg"{{ end }} aria-hidden="true"></span>
+{{- /**/ -}}

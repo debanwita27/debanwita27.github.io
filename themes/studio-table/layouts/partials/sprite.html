@@ -1,0 +1,6 @@
+{{- /* Pixel sprite from data/sprites.yaml. Args: name, px (pixel size), class (optional). */ -}}
+{{- $s := index site.Data.sprites .name }}
+{{- $h := len $s.rows }}{{ $w := len (index $s.rows 0) }}
+<svg{{ with .class }} class="{{ . }}"{{ end }} viewBox="0 0 {{ $w }} {{ $h }}" width="{{ mul $w .px }}" height="{{ mul $h .px }}" shape-rendering="crispEdges" aria-hidden="true">
+{{- range $y, $row := $s.rows }}{{ range $x, $c := split $row "" }}{{ with index $s.pal $c }}<rect x="{{ $x }}" y="{{ $y }}" width="1.02" height="1.02" fill="{{ . }}"/>{{ end }}{{ end }}{{ end -}}
+</svg>

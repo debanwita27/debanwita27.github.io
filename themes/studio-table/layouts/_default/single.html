@@ -1,0 +1,18 @@
+{{ define "main" }}
+<div class="page ground {{ partial "stub-ground.html" . }}">
+{{ partial "header.html" . }}
+<main class="wrap stub-main">
+  <article class="stub paper">
+    {{ partial "tape.html" (dict "name" "lavender-plain" "tilt" 2) }}
+    <header>
+      {{ with partial "tags-of.html" . }}<span class="chips">{{ range . }}{{ partial "tagchip.html" . }}{{ end }}</span>{{ end }}
+      <p class="mono stub-meta">{{ with .Date }}{{ if not .IsZero }}<time datetime="{{ .Format "2006-01-02" }}">{{ .Format "2 Jan 2006" }}</time> · {{ end }}{{ end }}{{ .ReadingTime }} min read</p>
+      <h1 class="display stub-title">{{ .Title }}</h1>
+      {{ with .Description }}<p class="stub-dek">{{ . }}</p>{{ end }}
+    </header>
+    <div class="stub-body">{{ .Content }}</div>
+    {{ with .Parent }}{{ if not .IsHome }}<a class="stub-back" href="{{ .RelPermalink }}">all {{ .Title | lower }}</a>{{ end }}{{ end }}
+  </article>
+</main>
+</div>
+{{ end }}

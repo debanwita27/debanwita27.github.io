@@ -1,0 +1,35 @@
+{{- $kind := partial "page-kind.html" . }}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} · {{ site.Title }}{{ end }}</title>
+<meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ site.Params.description }}{{ end }}">
+<link rel="canonical" href="{{ .Permalink }}">
+<meta property="og:title" content="{{ .Title | default site.Title }}">
+<meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
+<meta property="og:url" content="{{ .Permalink }}">
+<script>
+  /* Runs before first paint so the page never shows the wrong theme. */
+  (function(){
+    var t = null;
+    try { t = localStorage.getItem('dm-theme'); } catch (e) { t = null; }
+    if (t !== 'strawberry-matcha' && t !== 'cranberry-cold-brew') {
+      t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'cranberry-cold-brew' : 'strawberry-matcha';
+    }
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
+<link rel="icon" type="image/svg+xml" href="{{ "favicon.svg" | relURL }}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+{{- /* Only what the CSS uses. Fraunces roman 380-420 with SOFT/WONK pinned at 0; italic at 380 keeps the
+       SOFT and WONK ranges because the hero's italic name sets SOFT 100 / WONK 1, and Google Fonts
+       only serves an axis that is in the request. DM Sans 400-700 (700 is <strong>), italic 400. */}}
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,380..420,0,0;1,9..144,380,0..100,0..1&display=swap">
+{{- $switcher := cond (eq site.Params.themeSwitcher "pour") "pour" "pill" }}
+{{- $page := cond (eq $kind "home") "home" (cond (eq $kind "post") "post" "stub") }}
+{{- $res := slice (resources.Get "css/tokens.css") (resources.Get "css/base.css") (resources.Get (printf "css/switch-%s.css" $switcher)) (resources.Get (printf "css/%s.css" $page)) }}
+{{- $css := $res | resources.Concat (printf "css/%s.css" $kind) | minify | fingerprint }}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+{{- with .OutputFormats.Get "rss" }}
+<link rel="alternate" type="application/rss+xml" href="{{ .RelPermalink }}" title="{{ site.Title }}">
+{{- end }}

@@ -1,0 +1,221 @@
+/* =====================================================================
+   Tokens. One attribute on <html> picks the theme:
+   data-theme="strawberry-matcha" | "cranberry-cold-brew"
+   "on ground" tokens colour things sitting on the page ground;
+   "paper" tokens colour things printed on paper, cards, tags and panels.
+   Three families only: Fraunces (display), DM Sans (body/UI), Caveat (hand).
+   ===================================================================== */
+:root{
+  --f-display:"Fraunces", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --f-body:"DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-hand:"Caveat", "Bradley Hand", "Segoe Print", cursive;
+  --ease:cubic-bezier(.2,.8,.2,1);
+  --grain-dark:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .23 0 0 0 0 .15 0 0 0 0 .14 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --grain-soft:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .32 0 0 0 0 .3 0 0 0 0 .29 0 0 0 .055 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");   /* neutral, fainter grain for the light theme so the cream stays ivory */
+  --grain-light:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .93 0 0 0 0 .88 0 0 0 0 .81 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  /* ruled papers: rule spacing == line-height, and every vertical measure is a whole number of
+     it. home.js measures the baseline and offsets the rules, so only these need changing. */
+  --L:28px;      /* about sheet, ~ --fs-body x --lh-body */
+  --L2:26px;     /* projects card, --fs-small descriptions with room for the dotted rule */
+
+  /* ---- type scale: every font-size in the theme comes from here ---- */
+  --fs-body:17px;    --lh-body:1.65;     /* prose: posts, logs, stub pages, about sheet */
+  --fs-small:15px;   --lh-small:1.55;    /* captions, shelf caption, tangent text, project descriptions */
+  --fs-ui:14.5px;                        /* nav, tabs */
+  --fs-ui-sm:12.5px;                     /* theme switcher, washi links */
+  --fs-meta:12px;    --tr-meta:.12em;    /* uppercase: dates, eyebrows, card headings */
+  --fs-label:10.5px; --tr-label:.1em;    /* uppercase: chips, list keys, spine authors. Floor: nothing smaller */
+  --fs-mono:14px;                        /* index-card tangent */
+  --fs-dek:clamp(1.15rem,2vw,1.35rem);   /* italic Fraunces standfirst under a title */
+  --fs-h3:22px;      --lh-h3:1.25;
+  --fs-h2:clamp(1.6rem,3vw,1.875rem); --lh-h2:1.2;   /* 30px from ~640px up */
+  --fs-h1-post:clamp(2.1rem,4.4vw,3.15rem);
+  --fs-h1-index:clamp(3rem,8vw,5.6rem);  /* posts/logs index and 404 */
+  /* Caveat: three sizes, loaded weights 500/600 only */
+  --fs-hand-s:19px; --fs-hand:22px; --fs-hand-l:33px;
+  /* Fraunces: two weights. The hero's italic name is the one exception (see .hello em). */
+  --fw-display:380; --fw-title:420;
+  --f-mono:ui-monospace, "SF Mono", Menlo, monospace;  /* system only, never a web font */
+  /* home lede: set to var(--f-body) to go back to the DM Sans intro */
+  --lede-font:var(--f-display);
+}
+
+:root,[data-theme="strawberry-matcha"]{
+  color-scheme:light;
+  --ground:#FAF7F3; --grain-g:var(--grain-soft); --grain-p:var(--grain-soft);
+  --ink:#3A2624; --ink-soft:#6E5650; --accent:#6B403B; --madder:#A84F5C;
+  --wc-peony:#F7DDD5; --wc-rose:#D8A4AF; --wc-leaf:#C1BC77; --line:#2E2220; --blush:#D8A4AF;
+  --g-base:#F8EFE4; --g-a:rgba(216,164,175,.52); --g-b:rgba(193,188,119,.5);
+  --paper:#FAF7F3; --paper-2:#FEFCF9; --p-ink:#3A2624; --p-soft:#6E5650; --p-head:#6B403B; --p-madder:#94414F; --p-blue:#34427A;
+  --paper-edge:transparent; --foot-dash:rgba(58,38,36,.4);
+  --rule:rgba(160,170,196,.55); --card-line:rgba(168,79,92,.35); --row-rule:rgba(58,38,36,.32);
+  --wood:#E9D6B8; --wood-ink:rgba(58,38,36,.62); --wood-num:#6E5650;
+  --tag-1:#F1DFC0; --tag-2:#DCD9A8; --string:#7E6146; --tag-k:#94414F;
+  /* clothesline posts and pegs: flat, near-black line in both themes, wood and peony fills */
+  --ol:#2E2220; --stake:#E3C9A0; --ring:#D8A4AF;
+  --t1a:#EDBCC4; --t1b:#F6DCDF; --t2a:#D3CF95; --t2b:#ECE9C6; --t3a:#C9D0E2; --t3b:#EEF0F5; --t4d:rgba(155,86,102,.55); --t4b:#F7E2DC; --t5:#D9D0DE; --t6a:#F3DFD6; --t6b:#BDB877; --tape-ink:#3A2624; --washi-o:1;
+  --st0:#C9B8AE; --st1:#C27383; --st2:#A9586A; --st3:#8E4555; --st4:#6B403B;
+  --panel:#F7F0E7; --panel-dash:rgba(107,64,59,.42); --desk-tag:#FBF4DF; --desk-ink:#A85467;
+  --logo-tile:#F2DCD6; --cat-outline:transparent; --duck-outline:rgba(58,38,36,.75);
+  --well-ring:rgba(255,255,255,.4); --art-paper:#FBF6EE; --art-blend:multiply;
+  --note-bg:#F6D3CB; --note-ink:#3A2624;
+  --v1-a:#F7DDD5; --v1-b:#D8A4AF; --v1-b-o:.55; --v1-c:#C1BC77; --v1-c-o:.55;
+  --shadow:58,38,36;
+  /* switcher */
+  --sw-track:#EEEAE3; --sw-edge:rgba(58,38,36,.16); --sw-on:#EDBCC4; --sw-on-ink:#3A2624; --sw-off-ink:#4A3532;
+  --clip-fill:#E58FA0; --clip-ol:#1A100C;
+  /* nav hover sits on the darkest gingham square, so it runs a step deeper than --madder */
+  --nav-hover:#843646;
+  --lb-ink:#F8F1E7; --lb-hover:#A84F5C;
+  --chrome-1:#FFFFFF; --chrome-2:#C9CCD7; --chrome-3:#7C8292; --chrome-4:#F4F5F9; --chrome-5:#9AA0AE; --chrome-6:#ECEEF3;
+  --chrome-line:#6B6F7C;
+}
+
+[data-theme="cranberry-cold-brew"]{
+  color-scheme:dark;
+  /* one family: wood-brown/wine grounds, chocolate and wine surfaces, cream ink, champagne as the only metal */
+  --ground:#1C0F0E; --grain-g:var(--grain-light); --grain-p:var(--grain-light);
+  --ink:#F4E8D8; --ink-soft:#CDB89C; --accent:#E6C49A; --madder:#D99AA2;
+  --wc-peony:#5A2A38; --wc-rose:#8A4A5A; --wc-leaf:#5E4034; --line:#F4E8D8; --blush:#A65A6B;
+  --g-base:#1C0F0E; --g-a:rgba(93,34,44,.3); --g-b:rgba(62,39,35,.46);
+  --paper:#2D1A15; --paper-2:#321E18; --p-ink:#F4E8D8; --p-soft:#CDB89C; --p-head:#EACEAA; --p-madder:#DFA3AA; --p-blue:#EACEAA;
+  --paper-edge:rgba(234,206,170,.16); --foot-dash:rgba(234,206,170,.26);
+  --rule:rgba(234,206,170,.16); --card-line:rgba(234,206,170,.22); --row-rule:rgba(234,206,170,.3);
+  --wood:#34211B; --wood-ink:rgba(234,206,170,.6); --wood-num:#D8C3A5;
+  --tag-1:#3A211B; --tag-2:#4A1C24; --string:#9C856F; --tag-k:var(--p-madder);  /* --string is opaque so the post coils keep one colour over their near-black edge */
+  --ol:#1A100C; --stake:#C2A27F; --ring:#C98F9A;
+  /* tapes are light washi on the dark desk, dark ink on top */
+  --t1a:#B99498; --t1b:#CBAFB0; --t2a:#969883; --t2b:#B3B49F; --t3a:#A0A4B3; --t3b:#C0C2CA; --t4d:rgba(120,50,62,.45); --t4b:#C9B2B1; --t5:#ADA6B5; --t6a:#CDB5B0; --t6b:#8F9278; --tape-ink:#2A1414; --washi-o:.9;
+  --st0:rgba(234,206,170,.2); --st1:#9A5866; --st2:#B87482; --st3:#D69AA6; --st4:#EACEAA;
+  --panel:#2A1814; --panel-dash:rgba(234,206,170,.28); --desk-tag:#40161C; --desk-ink:#EACEAA;
+  --logo-tile:#3A1014; --cat-outline:rgba(234,206,170,.85); --duck-outline:transparent;
+  --well-ring:rgba(234,206,170,.14); --art-paper:#2A1913; --art-blend:screen;
+  --note-bg:#4A1C24; --note-ink:#F4E8D8;
+  --v1-a:#4A1C26; --v1-b:#7A3E4E; --v1-b-o:.55; --v1-c:#6E4A46; --v1-c-o:.45;
+  --shadow:0,0,0;
+  --sw-track:#2F1C14; --sw-edge:rgba(234,206,170,.3); --sw-on:#EACEAA; --sw-on-ink:#2A1610; --sw-off-ink:#B9A284;
+  --clip-fill:#D98A98; --clip-ol:#1A100C;
+  --lb-ink:#F8F1E7; --lb-hover:#8E3A4B;
+  --nav-hover:initial; /* unset: nav hover falls back to each page's --madder */
+  /* metal is champagne here, never silver */
+  --chrome-1:#F6EBDD; --chrome-2:#D9C3A6; --chrome-3:#8C6F55; --chrome-4:#F1E2CC; --chrome-5:#A88C6E; --chrome-6:#E6D3B8;
+  --chrome-line:#6E5440;
+}
+
+/* Cranberry page accents, mirroring strawberry matcha (post leans strawberry, logs lean matcha):
+   the single post leans cranberry (wine papers, dusty rose), logs lean cold brew (coffee papers, caramel).
+   Home and the posts index keep the shared mix above. */
+[data-theme="cranberry-cold-brew"] body.page-post{
+  --ground:#200C10; --accent:#EBB9BC; --madder:#E29CA8;
+  --paper:#2E1418; --paper-2:#33171C; --p-ink:#F6E9E4; --p-soft:#D6B6B1; --p-head:#F0C9C6; --p-madder:#E6A3AE; --p-blue:#F0C9C6;
+  --paper-edge:rgba(236,190,186,.26); --rule:rgba(236,190,186,.13);
+
+  --note-bg:#55202D; --note-ink:#F6E9E4; --art-paper:#2A1216;
+  --t-arts-ink:#E6A3AE;
+}
+[data-theme="cranberry-cold-brew"] body.page-logs{
+  --ground:#1A120E; --accent:#E2C29A; --madder:#C8A27A;
+  --paper:#2B1D16; --paper-2:#33241B; --p-ink:#F3E8DA; --p-soft:#CDB79B; --p-head:#E2C29A; --p-madder:#C8A27A; --p-blue:#E2C29A;
+  --paper-edge:rgba(216,184,146,.17); --rule:rgba(216,184,146,.14);
+
+  --label-ink:#D4B287;
+}
+
+
+/* Reading shelf (home). book-N: the current reads, one colour each, with their spine ink.
+   spine-1..8: the back row, left to right, mixing lights, mids and darks so neighbours contrast;
+   --spine-edge outlines every back spine so the darks still read on the card.
+   stack-1/2: the two flat books under the cat (top, bottom). */
+:root,[data-theme="strawberry-matcha"]{
+  --book-1:#3E4A78; --book-1-ink:#F5EEE3; --book-2:#8C4A5A; --book-2-ink:#F5EEE3;
+  --rib:#A84F5C; --ledge:#7E4E44; --ledge-top:#A0705F;
+  /* sage, peony, terracotta, sky, cacao, leaf, lavender, nude */
+  --spine-1:#405341; --spine-2:#EDBCC4; --spine-3:#945C4D; --spine-4:#AFB8CD;
+  --spine-5:#6B403B; --spine-6:#C1BC77; --spine-7:#62567A; --spine-8:#C9B8AE;
+  --spine-edge:rgba(58,38,36,.16);
+  --stack-1:#D8A4AF; --stack-2:#AFB8CD;
+}
+[data-theme="cranberry-cold-brew"]{
+  --book-1:#C98F9A; --book-1-ink:#2A1414; --book-2:#D8C3A5; --book-2-ink:#2A1414;
+  --rib:#E6C49A; --ledge:#9C7E62; --ledge-top:#C2A27F;
+  /* leather couch, sagebound, deep peach, nude ember, river pine, honey gold, rose bare, clay dust */
+  --spine-1:#734F31; --spine-2:#7B745B; --spine-3:#A85530; --spine-4:#BDA49B;
+  --spine-5:#534B31; --spine-6:#947B50; --spine-7:#9B756E; --spine-8:#C0AA8A;
+  --spine-edge:rgba(234,206,170,.34);
+  --stack-1:#A85530; --stack-2:#7B745B;
+}
+
+/* Shelf plants (home.css .sh-pl, partials/home/plants/*). Each name is one paint: lf* leaves,
+   terra/cer/mug/dish/... pots, wash-* the watercolour glow behind each plant. */
+:root,[data-theme="strawberry-matcha"]{
+  --pl-line:#3A2624; --pl-line-glass:#3A2624; --pl-hi:#FFFFFF; --pl-hi-o:.85;
+  --pl-detail:#3A2624; --pl-detail-glass:#3A2624; --pl-vein-w:.85; --pl-spine-w:.8; --pl-vein-o:.5; --pl-spine-o:.75; --pl-seen-o:.42; --pl-facet-o:.35;
+  --pl-lf:#C1BC77; --pl-lf2:#A3AE6E; --pl-lf3:#D9D6A2; --pl-varieg:#F4EDCF;
+  --pl-terra:#DE9A7A; --pl-terra-sh:#C98163; --pl-fleck:#9C5B44;
+  --pl-cer:#F3EADF; --pl-dip:#E3AAB2; --pl-soil:#6E5650; --pl-peb:#E9D6B8; --pl-spk:#6E5650;
+  --pl-pt:#EDBCC4; --pl-pt2:#C98794; --pl-ctr:#EFCB7A;
+  --pl-eu:#AFC0AA; --pl-eu2:#C7D3BE;
+  --pl-glass:rgba(201,208,226,.4); --pl-water:rgba(175,184,205,.55);
+  --pl-tag:#E9D6B8; --pl-lav:#B7AFD3;
+  --pl-h1:#94414F; --pl-h2:#E9D6B8; --pl-h3:#3E4A78; --pl-pa1:#D8A4AF; --pl-pa2:#C1BC77; --pl-pa3:#AFB8CD;
+  --pl-brass:#D5C08E; --pl-bris:#F1E2C4; --pl-jar:var(--pl-cer);
+  --pl-blob1:rgba(216,164,175,.75); --pl-blob2:rgba(193,188,119,.7); --pl-blob3:rgba(175,184,205,.85);
+  --pl-ging-base:#FBEFEA; --pl-ging-a:rgba(216,164,175,.55); --pl-rim:#E3A9A0; --pl-pot-sh:rgba(58,38,36,.1);
+  --pl-bark:#A47A64; --pl-bloss:#E58FA0; --pl-dish:#AFB8CD; --pl-moss:#A3AE6E;
+  --pl-pc1:#EDBCC4; --pl-pc2:#C1BC77; --pl-wood:#E9D6B8; --pl-base:var(--pl-wood); --pl-lead:#3A2624;
+  --pl-mug:#C9D0E2; --pl-berry:#E07F8A; --pl-seed:#FFF6D8;
+  --pl-stem:#F3EADF; --pl-cap:#E3A9A0; --pl-dot:#FFFDF8; --pl-glow:#F2C96E; --pl-glow-lo:.3; --pl-glow-hi:.6; --pl-mote:#E3AE3E; --pl-moon:#F6E3B4;
+  --pl-wash-a:#F7DDD5; --pl-wash-b:#ECE9C6; --pl-wash-c:#F3E4D6; --pl-wash-o:.95; --pl-wash-hi:#FFFFFF; --pl-wash-hi-o:.35;
+}
+/* Dark plants step in value inside each drawing: pots mid-dark and saturated, foliage mid,
+   flowers/tips/glow brightest. Ink is near-black as in light mode, outlines and detail alike; the
+   light wash pool behind each plant (home.css, per plant) carries the edge against the card. */
+[data-theme="cranberry-cold-brew"]{
+  --pl-line:#1A100C; --pl-line-glass:#1A100C; --pl-hi:#F4E8D8; --pl-hi-o:.45;
+  --pl-detail:#1A100C; --pl-detail-glass:#1A100C; --pl-vein-w:1; --pl-spine-w:1; --pl-vein-o:.9; --pl-spine-o:1; --pl-seen-o:.6; --pl-facet-o:.7;
+  --pl-lf:#9E9670; --pl-lf2:#A8934A; --pl-lf3:#B9B088; --pl-varieg:#E0CFA6;
+  --pl-terra:#8C4426; --pl-terra-sh:#6E3320; --pl-fleck:#E6B48C;
+  --pl-cer:#7A5236; --pl-dip:#C98F9A; --pl-soil:#2A1712; --pl-peb:#C0AA8A; --pl-spk:#E6C49A;
+  --pl-pt:#E8A3AF; --pl-pt2:#E8A3AF; --pl-ctr:#F2C96E;
+  --pl-eu:#A3AE92; --pl-eu2:#BCC4A8;
+  --pl-glass:rgba(120,45,62,.5); --pl-water:rgba(190,120,130,.35);
+  --pl-tag:#C98F9A; --pl-lav:#C3A6E6;
+  --pl-h1:#D9A2AB; --pl-h2:#EACEAA; --pl-h3:#B9B088; --pl-pa1:#E58A95; --pl-pa2:#C7D07E; --pl-pa3:#F0A77E;
+  --pl-brass:#D6B66A; --pl-bris:#EAD3A8; --pl-jar:#7A6340;
+  --pl-blob1:rgba(217,120,138,.9); --pl-blob2:rgba(158,150,112,.9); --pl-blob3:rgba(234,206,170,.8);
+  --pl-ging-base:#7A4E4A; --pl-ging-a:rgba(201,143,154,.5); --pl-rim:#8C4426; --pl-pot-sh:rgba(0,0,0,.2);
+  --pl-bark:#8A6448; --pl-bloss:#F0B3BC; --pl-dish:#734F31; --pl-moss:#9E9670;
+  --pl-pc1:#D9A2AB; --pl-pc2:#B9B088; --pl-wood:#E6C49A; --pl-base:#7A6340; --pl-lead:#3A2420;
+  --pl-mug:#7A4E4A; --pl-berry:#E58A95; --pl-seed:#FFF1D6;
+  --pl-stem:#E6D3B5; --pl-cap:#D9939F; --pl-dot:#FFF1D6; --pl-glow:#F4C6B4; --pl-glow-lo:.4; --pl-glow-hi:.85; --pl-mote:#F6E3B4; --pl-moon:#EACEAA;
+  --pl-wash-a:#DCC4BA; --pl-wash-b:#CBC7A6; --pl-wash-c:#DDC9A8; --pl-wash-o:.8; --pl-wash-hi:#EACEAA; --pl-wash-hi-o:.3;
+}
+
+/* chip label ink; chip and accent colours per tag come from data/tags.yaml */
+:root,[data-theme="strawberry-matcha"]{--chip-ink:#F5EEE3; --label-ink:color-mix(in srgb, #717036 72%, #3A2624)}
+[data-theme="cranberry-cold-brew"]{--chip-ink:#F8F1E7; --label-ink:#D9BC92}
+
+/* Tangent tones. A highlight and its note always share one tone:
+   rose = sticky note, sand = paper slip, leaf = taped matcha sticky, blue = index card
+   (blue reads as champagne in dark). --tn-*-ink is the marker number and connector,
+   --tn-*-text the note's own text, --tn-*-tape-a/b its washi strip (light in both themes). */
+:root,[data-theme="strawberry-matcha"]{
+  --tn-rose-hl:rgba(216,164,175,.55); --tn-rose-hot:rgba(216,164,175,.95); --tn-rose-ink:#9B5666; --tn-rose-note:#F6D3CB; --tn-rose-text:#3A2624;
+  --tn-rose-tape-a:#E7A9B5; --tn-rose-tape-b:#F6DCDF;
+  --tn-sand-hl:rgba(214,180,136,.5);  --tn-sand-hot:rgba(214,180,136,.9);  --tn-sand-ink:#7E5A33; --tn-sand-note:#FFFDF8; --tn-sand-text:#3A2624;
+  --tn-sand-edge:rgba(58,38,36,.1);
+  --tn-leaf-hl:rgba(193,188,119,.58); --tn-leaf-hot:rgba(193,188,119,.95); --tn-leaf-ink:#5C5938; --tn-leaf-note:#DCD8A0; --tn-leaf-text:#33301C;
+  --tn-leaf-tape-a:#B4AE62; --tn-leaf-tape-b:#F2F0D8;
+  --tn-blue-hl:rgba(175,184,205,.7);  --tn-blue-hot:rgba(175,184,205,1);   --tn-blue-ink:#34427A; --tn-blue-note:#FFFEFA; --tn-blue-text:#2E2A33;
+  --tn-card-rule:rgba(130,148,196,.45); --tn-card-head:rgba(168,79,92,.7);
+}
+[data-theme="cranberry-cold-brew"]{
+  --tn-rose-hl:rgba(230,163,174,.3);  --tn-rose-hot:rgba(230,163,174,.5);  --tn-rose-ink:#E6A3AE; --tn-rose-note:#6A3440; --tn-rose-text:#FBE4E7;
+  --tn-rose-tape-a:#D79AA6; --tn-rose-tape-b:#F0C9CF;
+  --tn-sand-hl:rgba(201,150,95,.3);   --tn-sand-hot:rgba(201,150,95,.52);  --tn-sand-ink:#DDAE7C; --tn-sand-note:#2E1E18; --tn-sand-text:#F4E8D8;
+  --tn-sand-edge:rgba(234,206,170,.3);
+  --tn-leaf-hl:rgba(201,197,142,.26); --tn-leaf-hot:rgba(201,197,142,.45); --tn-leaf-ink:#CFCB94; --tn-leaf-note:#4E4A2E; --tn-leaf-text:#F1EED6;
+  --tn-leaf-tape-a:#B3AF78; --tn-leaf-tape-b:#DEDBB4;
+  --tn-blue-hl:rgba(234,206,170,.22); --tn-blue-hot:rgba(234,206,170,.4);  --tn-blue-ink:#EACEAA; --tn-blue-note:#3B2A20; --tn-blue-text:#F4E8D8;
+  --tn-card-rule:rgba(234,206,170,.17); --tn-card-head:rgba(222,150,164,.6);
+}

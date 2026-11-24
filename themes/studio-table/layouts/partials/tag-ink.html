@@ -1,0 +1,4 @@
+{{- /* Accent inks for a page, from its first tag in data/tags.yaml. */ -}}
+{{- $t := lower (index (.Params.tags | default (slice "_default")) 0) }}
+{{- $d := index site.Data.tags $t | default (index site.Data.tags "_default") }}
+{{- return printf "--ink-l:%s;--ink-d:%s" $d.ink.light $d.ink.dark -}}

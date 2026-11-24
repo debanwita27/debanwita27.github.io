@@ -1,0 +1,8 @@
+{{- /* One word per page family; picks the CSS/JS bundle. Single posts and single logs share the "post"
+       bundle; the posts and logs lists share "index". */ -}}
+{{- $kind := "stub" -}}
+{{- if .IsHome -}}{{ $kind = "home" -}}
+{{- else if and (in (slice "posts" "logs") .Section) .IsPage -}}{{ $kind = "post" -}}
+{{- else if and (in (slice "posts" "logs") .Section) .IsSection -}}{{ $kind = "index" -}}
+{{- end -}}
+{{- return $kind -}}

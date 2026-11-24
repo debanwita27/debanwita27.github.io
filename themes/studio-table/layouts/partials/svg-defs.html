@@ -1,0 +1,21 @@
+{{- /* Shared filters and symbols. Filters texture grounds, washes and the reader blob only;
+       arrows and tangent connectors stay smooth vector strokes. */ -}}
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="paint" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".016" numOctaves="3" seed="7" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="18" xChannelSelector="R" yChannelSelector="G" result="d"/><feGaussianBlur in="d" stdDeviation=".8"/></filter>
+    <filter id="chalk" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".03" numOctaves="2" seed="9" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="9" xChannelSelector="R" yChannelSelector="G" result="d"/><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="1" seed="2" result="n"/><feDisplacementMap in="d" in2="n" scale="5" xChannelSelector="R" yChannelSelector="G"/></filter>
+    <filter id="rough" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="2" seed="5" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="2.4" xChannelSelector="R" yChannelSelector="G"/></filter>
+    {{- if .IsHome }}
+    <filter id="v1wc1" x="-30%" y="-30%" width="160%" height="160%"><feTurbulence type="fractalNoise" baseFrequency=".018" numOctaves="3" seed="3"/><feDisplacementMap in="SourceGraphic" scale="34"/><feGaussianBlur stdDeviation="2.4"/></filter>
+    <filter id="v1wc2" x="-30%" y="-30%" width="160%" height="160%"><feTurbulence type="fractalNoise" baseFrequency=".022" numOctaves="3" seed="11"/><feDisplacementMap in="SourceGraphic" scale="40"/><feGaussianBlur stdDeviation="3"/></filter>
+    <filter id="v1wc3" x="-30%" y="-30%" width="160%" height="160%"><feTurbulence type="fractalNoise" baseFrequency=".014" numOctaves="4" seed="27"/><feDisplacementMap in="SourceGraphic" scale="28"/><feGaussianBlur stdDeviation="1.8"/></filter>
+    <filter id="glowblur" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="11"/></filter>
+    <linearGradient id="chrome" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".22" stop-color="#c9ccd7"/><stop offset=".44" stop-color="#7c8292"/><stop offset=".58" stop-color="#f4f5f9"/><stop offset=".8" stop-color="#9aa0ae"/><stop offset="1" stop-color="#eceef3"/></linearGradient>
+    <symbol id="s-star" viewBox="0 0 100 100"><path d="M50 2C54 38 62 46 98 50C62 54 54 62 50 98C46 62 38 54 2 50C38 46 46 38 50 2Z"/></symbol>
+    <symbol id="s-brush" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" filter="url(#rough)"><path d="M28 50H72L68 90H32Z"/><path d="M26 50H74"/><path d="M40 50L30 10M50 50V6M60 50L74 14M45 50L42 22"/><path d="M27 12C30 6 34 8 33 14M48 8C50 2 54 4 52 9M72 10C76 6 79 10 75 15"/><path d="M36 62C44 60 56 64 64 61"/></g></symbol>
+    {{- end }}
+    <symbol id="s-circle" viewBox="0 0 120 50" preserveAspectRatio="none"><path d="M18 8C50 0 104 4 114 22C122 40 70 48 40 46C10 44 0 32 6 20C10 12 24 6 44 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" vector-effect="non-scaling-stroke"/></symbol>
+    <!-- one smooth swoosh rising into an open "7" head: the shared hand-drawn arrow -->
+    <symbol id="s-arrow" viewBox="0 0 52 24"><path class="arrow" d="M3 9C11 20 31 21 47.5 6"/><path class="arrow" d="M37 6H47.5L43.5 15.5"/></symbol>
+  </defs>
+</svg>

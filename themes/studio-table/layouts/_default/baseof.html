@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="{{ site.LanguageCode | default "en" }}" data-theme="strawberry-matcha">
+<head>
+{{- partial "head.html" . }}
+</head>
+<body class="page-{{ partial "page-tone.html" . }}">
+{{ partial "svg-defs.html" . }}
+{{ block "main" . }}{{ end }}
+{{ partial "scripts.html" . }}
+</body>
+</html>

@@ -1,0 +1,13 @@
+{{- /* One figure. Args: img (from img-data), alt, caption, class, style, sizes, group,
+       tape (a name from data/tapes.yaml, "none", or empty to rotate by tapeIndex),
+       tapeIndex (also varies the tilt). */ -}}
+{{- $i := .img }}
+<figure class="fig {{ .class }}"{{ with .style }} style="{{ . | safeCSS }}"{{ end }}>
+  <a class="fig-frame" href="{{ $i.full }}" data-lb{{ with .group }}="{{ . }}"{{ end }}>
+    {{- if ne .tape "none" }}{{ if .tape }}{{ partial "tape.html" (dict "name" .tape "index" (.tapeIndex | default 0)) }}{{ else }}{{ partial "tape.html" (dict "index" (.tapeIndex | default 0)) }}{{ end }}{{ end -}}
+    <img src="{{ $i.src }}"{{ with $i.srcset }} srcset="{{ . }}" sizes="{{ $.sizes | default "(max-width: 800px) 100vw, 740px" }}"{{ end }}{{ if gt $i.w 0 }} width="{{ $i.w }}" height="{{ $i.h }}"{{ end }} alt="{{ .alt }}" loading="lazy" decoding="async">
+  </a>
+  {{- with .caption }}
+  <figcaption>{{ . | markdownify }}</figcaption>
+  {{- end }}
+</figure>
